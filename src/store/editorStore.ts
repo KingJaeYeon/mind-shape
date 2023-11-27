@@ -2,7 +2,7 @@ import { create } from "zustand";
 import { withReact } from "slate-react";
 import { createEditor } from "slate";
 // import { withHistory } from "@/components/slate-plugins/history/with-history";
-// import { withImages } from "@/components/slate-plugins/image/withImages";
+import { withImages } from "@/components/editor/plugins/withImages";
 
 type State = {
   editor: any;
@@ -15,13 +15,13 @@ type Action = {
 
 const initialState: State = {
   // editor: withImages(withReact(withHistory(createEditor()))),
-  editor: withReact(createEditor()),
+  editor: withImages(withReact(createEditor())),
   shift: false,
 };
 
 export const useEditorStore = create<State & Action>()((set) => ({
-  editor: withReact(createEditor()),
   // editor: withImages(withReact(withHistory(createEditor()))),
+  editor: withImages(withReact(createEditor())),
   shift: false,
   setShift: (shift: boolean) => set({ shift }),
   reset: () => set(initialState),

@@ -9,8 +9,8 @@ import {
   LIST_ITEM,
   NUMBER_LIST,
 } from "@/constant/slate";
-import { HrElement } from "@/components/editor/hr";
-// import { ImageElement } from "@/components/slate-plugins/image/Image";
+import { HrElement } from "@/components/editor/plugins/hr-element";
+import { ImageElement } from "@/components/editor/plugins/image-element";
 
 export type ElementProps = {
   attributes: any;
@@ -71,12 +71,12 @@ export const Element = ({ attributes, children, element }: ElementProps) => {
           {children}
         </ol>
       );
-    // case IMAGE:
-    //   return (
-    //     <ImageElement element={element} attributes={attributes}>
-    //       {children}
-    //     </ImageElement>
-    //   );
+    case IMAGE:
+      return (
+        <ImageElement element={element} attributes={attributes}>
+          {children}
+        </ImageElement>
+      );
     case HR:
       return <HrElement element={element} attributes={attributes} />;
     default:
