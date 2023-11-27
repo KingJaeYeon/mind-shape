@@ -192,20 +192,3 @@ export type CustomEditor = BaseEditor &
     nodeT;
     oDecorations?: Map<Element, Range[]>;
   };
-
-export interface HistoryEditor extends BaseEditor {
-  history: History;
-  undo: () => void;
-  redo: () => void;
-  writeHistory: (stack: `undos` | `redos`, batch: any) => void;
-}
-
-export interface History {
-  redos: Batch[];
-  undos: Batch[];
-}
-
-interface Batch {
-  operations: Operation[];
-  selectionBefore: Range | null;
-}
