@@ -1,11 +1,10 @@
 import React from "react";
 import { Transforms } from "slate";
-import { ReactEditor } from "slate-react";
-import { useEditorStore } from "@/store/editorStore";
+import { ReactEditor, useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
 
 export const Title = () => {
-  const { editor } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = () => {
     if (textareaRef.current) {

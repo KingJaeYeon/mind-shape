@@ -3,9 +3,10 @@ import { withReact } from "slate-react";
 import { createEditor } from "slate";
 import { withImages } from "@/components/editor/plugins/withImages";
 import { withHistory } from "@/components/editor/plugins/with-history";
+import { CustomEditor } from "../../@types/slate";
 
 type State = {
-  editor: any;
+  editor: CustomEditor;
   shift: boolean;
 };
 type Action = {

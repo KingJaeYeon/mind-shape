@@ -3,10 +3,10 @@
 import { Button } from "@/components/editor/button";
 import React from "react";
 import { insertImage } from "@/components/editor/plugins/withImages";
-import { useEditorStore } from "@/store/editorStore";
+import { useSlateStatic } from "slate-react";
 
 export default function ImageButton() {
-  const { editor } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   const ref = React.useRef<HTMLInputElement>();
 
   function fileInputChange(e: any) {
