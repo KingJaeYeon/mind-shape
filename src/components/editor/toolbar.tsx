@@ -23,27 +23,12 @@ import {
   TEXT_ALIGN_LEFT,
   TEXT_ALIGN_RIGHT,
 } from "@/constant/slate";
-import { insertImage } from "@/components/editor/plugins/withImages";
+import ImageButton from "@/components/editor/image-button";
+import LinkButton from "@/components/editor/link-button";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
   const { editor } = useEditorStore((state) => state);
-  const ref = React.useRef<HTMLInputElement>();
   if (!show) return null;
-
-  function fileInputChange(e: any) {
-    const file = e.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        const base64String = e.target?.result;
-        insertImage(editor, base64String);
-      };
-      reader.readAsDataURL(file);
-    }
-    if (!!ref.current && `value` in ref.current) {
-      ref.current.value = ``;
-    }
-  }
 
   return (
     <div className={`flex`}>
@@ -89,14 +74,7 @@ export const Toolbar = ({ show }: { show: boolean }) => {
       >
         I
       </Button>
-      <Button
-        onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_ITALIC);
-        }}
-        className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
-      >
-        Link
-      </Button>
+      <LinkButton />
       <Button
         onclickHandler={() => {
           MarkEditor.toggleMark(editor, MARK_LINK);
@@ -161,23 +139,7 @@ export const Toolbar = ({ show }: { show: boolean }) => {
       >
         Bullet
       </Button>
-      <input
-        type={`file`}
-        ref={ref as any}
-        accept="image/*"
-        onChange={(event) => fileInputChange(event)}
-        hidden
-      />
-      <Button
-        onclickHandler={() => {
-          if (!!ref.current && `click` in ref.current) {
-            ref.current.click();
-          }
-        }}
-        className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
-      >
-        File
-      </Button>
+      <ImageButton />
       <Button
         onclickHandler={() => {
           HREditor.toggleHR(editor);

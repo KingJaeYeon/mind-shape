@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-spring/web": "^9.7.3",
     "@types/is-url": "^1.2.32",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
