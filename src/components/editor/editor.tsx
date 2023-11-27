@@ -15,6 +15,7 @@ import {
   ShiftEnter,
 } from "@/components/editor/plugins/custom-editor-plugins";
 import { Descendant } from "slate";
+import HoverToolbar from "@/components/editor/plugins/hover-toolbar";
 
 const initialValue: Descendant[] = [
   {
@@ -52,6 +53,7 @@ function Editor() {
         <div className={`grid w-full max-w-[45rem] overflow-auto`}>
           <Title />
           <hr className={`my-5`} />
+          <HoverToolbar />
           <Editable
             className={`min-h-[60vh] w-full max-w-full outline-none`}
             renderElement={renderElement}

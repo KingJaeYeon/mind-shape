@@ -7,8 +7,8 @@ import {
   ListEditor,
   MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
-import { useEditorStore } from "@/store/editorStore";
 import {
+  BLOCK_HEADING_ONE,
   BLOCK_HEADING_THREE,
   BLOCK_HEADING_TWO,
   BLOCK_PARAGRAPH,
@@ -25,9 +25,10 @@ import {
 } from "@/constant/slate";
 import ImageButton from "@/components/editor/image-button";
 import LinkButton from "@/components/editor/link-button";
+import { useSlateStatic } from "slate-react";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
-  const { editor } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   if (!show) return null;
 
   return (
@@ -77,7 +78,7 @@ export const Toolbar = ({ show }: { show: boolean }) => {
       <LinkButton />
       <Button
         onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_LINK);
+          BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
         }}
         className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
       >

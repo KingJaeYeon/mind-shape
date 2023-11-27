@@ -1,9 +1,13 @@
-import { ReactEditor, useFocused, useSelected } from "slate-react";
+import {
+  ReactEditor,
+  useFocused,
+  useSelected,
+  useSlateStatic,
+} from "slate-react";
 import { ElementProps } from "@/components/editor/plugins/change-element";
 import { cn } from "@/utils/twmarge";
 import { Transforms } from "slate";
 import { Button } from "@/components/editor/button";
-import { useEditorStore } from "@/store/editorStore";
 import Image from "next/image";
 
 export const ImageElement = ({
@@ -11,7 +15,7 @@ export const ImageElement = ({
   children,
   element,
 }: ElementProps) => {
-  const { editor } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   const path = ReactEditor.findPath(editor, element);
   const selected = useSelected();
   const focused = useFocused();
@@ -26,7 +30,7 @@ export const ImageElement = ({
           src={element.url as string}
           width={700}
           height={3000}
-          className={cn(`box-border block`, boxShadow)}
+          className={cn(`box-border block w-auto`, boxShadow)}
           alt={`insert`}
           priority
         />
