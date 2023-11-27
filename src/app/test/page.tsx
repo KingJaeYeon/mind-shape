@@ -1,14 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
 
-Page.propTypes = {
-
-};
+Page.propTypes = {};
 
 function Page() {
-    return (
-        <div>test page</div>
-    );
+  return <div>test page</div>;
 }
 
 export default Page;
