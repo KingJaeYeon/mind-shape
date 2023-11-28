@@ -32,7 +32,7 @@ export const Toolbar = ({ show }: { show: boolean }) => {
   if (!show) return null;
 
   return (
-    <div className={`flex`}>
+    <div className={`flex flex-wrap`}>
       <Button
         title={`ctrl+b`}
         onclickHandler={() => {
