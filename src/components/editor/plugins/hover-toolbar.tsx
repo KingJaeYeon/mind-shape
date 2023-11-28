@@ -1,10 +1,11 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useFocused, useSlate } from "slate-react";
+import { useFocused, useSlate, useSlateStatic } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
 import { Button } from "@/components/editor/button";
 import {
   BlockEditor,
+  LinkEditor,
   MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
 import {
@@ -13,6 +14,7 @@ import {
   MARK_BOLD,
   MARK_CODE,
   MARK_ITALIC,
+  MARK_LINK,
   MARK_UNDERLINE,
 } from "@/constant/slate";
 import { Menu } from "@/components/editor/hover-toolbar-menu";
@@ -26,15 +28,15 @@ export default function HoverToolbar() {
   const { isLink, setLink } = useEditorStore((state) => state);
   const editor = useSlate();
   const inFocus = useFocused();
-  const [inputValue, setInputValue] = useState("314324");
+  const [inputValue, setInputValue] = useState("");
   useHoverToolbarPosition(ref, editor, inFocus, "default", isLink);
 
   const menuStyled = isLink ? "text-black flex-row" : "text-white";
 
   useEffect(() => {
-    console.log(ref.current);
     if (ref.current) {
       setLink(false);
+      setInputValue("");
     }
   }, [editor.selection, ref.current]);
 
@@ -64,7 +66,7 @@ export default function HoverToolbar() {
 }
 
 function DefaultMenu() {
-  const editor = useSlate();
+  const editor = useSlateStatic();
   return (
     <>
       <LinkButton isHoverButton={true} />
@@ -128,13 +130,23 @@ function LinkInput({
   inputValue: string;
   setInputValue: Function;
 }) {
+  const { setLink } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   return (
     <>
       <input
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
       />
-      <Button className={"flex px-1.5 py-0.5 italic text-white"}>확인</Button>
+      <Button
+        className={"flex px-1.5 py-0.5 italic text-white"}
+        onclickHandler={() => {
+          LinkEditor.addLink(editor, MARK_LINK, inputValue);
+          setLink(false);
+        }}
+      >
+        확인
+      </Button>
     </>
   );
 }

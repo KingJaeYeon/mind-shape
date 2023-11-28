@@ -21,6 +21,7 @@ import {
   MARK_BOLD,
   MARK_CODE,
   MARK_ITALIC,
+  MARK_LINK,
   MARK_UNDERLINE,
   NUMBER_LIST,
   TEXT_ALIGN_TYPES,
@@ -187,5 +188,18 @@ export const MarkEditor = {
     } else {
       SlateEditor.addMark(editor, format, true);
     }
+  },
+};
+
+export const LinkEditor = {
+  isLinkActive(editor: any, format = MARK_LINK) {
+    const marks: Pick<CustomText, `link`> | null = SlateEditor.marks(editor);
+    return marks ? (marks as any)[format] !== undefined : false;
+  },
+  addLink(editor: any, format = MARK_LINK, link: string) {
+    if (link.trim().length !== 0) SlateEditor.addMark(editor, format, link);
+  },
+  removeLink(editor: any, format = MARK_LINK) {
+    SlateEditor.removeMark(editor, format);
   },
 };

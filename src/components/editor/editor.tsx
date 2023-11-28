@@ -72,6 +72,9 @@ function Editor() {
               }
             }}
           />
+          <div className={`h-[200px] border border-gray-300`}>
+            <p>dmkdmk</p>
+          </div>
         </div>
       </Slate>
     </div>

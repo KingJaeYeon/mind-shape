@@ -107,5 +107,14 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
       </code>
     );
   }
+  if (leaf.link) {
+    children = (
+      <code
+        className={`rounded bg-blue-600 p-0.5 text-[18px] font-thin text-white`}
+      >
+        {children}
+      </code>
+    );
+  }
   return <span {...attributes}>{children}</span>;
 };
