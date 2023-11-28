@@ -3,7 +3,7 @@ import React from "react";
 import { Title } from "@/components/editor/title";
 import { Editable, Slate } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
-import { BLOCK_PARAGRAPH } from "@/constant/slate";
+import { BLOCK_PARAGRAPH, MARK_LINK } from "@/constant/slate";
 import {
   renderElement,
   renderLeaf,
@@ -11,6 +11,7 @@ import {
 import { Toolbar } from "@/components/editor/toolbar";
 import {
   keydownEventPlugin,
+  LinkEditor,
   ListDeleter,
   ShiftEnter,
 } from "@/components/editor/plugins/custom-editor-plugins";
@@ -63,6 +64,12 @@ function Editor() {
               }
               if (event.key === `Backspace` || event.key === `Delete`) {
                 ListDeleter.ActionHandler(editor, event);
+              }
+              if (event.key === `Enter`) {
+                const isActive = LinkEditor.isLinkActive(editor, MARK_LINK);
+                if (isActive) {
+                  LinkEditor.removeLink(editor);
+                }
               }
             }}
             renderLeaf={renderLeaf}

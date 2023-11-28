@@ -136,6 +136,7 @@ function LinkInput({
     <>
       <input
         value={inputValue}
+        autoFocus={true}
         onChange={(e) => setInputValue(e.target.value)}
       />
       <Button
