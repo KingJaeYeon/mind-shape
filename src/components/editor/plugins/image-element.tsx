@@ -28,7 +28,7 @@ export const ImageElement = ({
           src={element.url as string}
           width={700}
           height={3000}
-          className={cn(`box-border block w-[95%]`, boxShadow)}
+          className={cn(`box-border block w-[90%]`, boxShadow)}
           alt={`insert`}
           priority
         />
