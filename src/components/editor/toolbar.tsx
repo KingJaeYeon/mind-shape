@@ -23,7 +23,6 @@ import {
   TEXT_ALIGN_RIGHT,
 } from "@/constant/slate";
 import ImageButton from "@/components/editor/image-button";
-import LinkButton from "@/components/editor/link-button";
 import { useSlateStatic } from "slate-react";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
@@ -74,7 +73,6 @@ export const Toolbar = ({ show }: { show: boolean }) => {
       >
         I
       </Button>
-      <LinkButton />
       <Button
         onclickHandler={() => {
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
