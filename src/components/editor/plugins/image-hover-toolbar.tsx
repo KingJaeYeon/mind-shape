@@ -1,5 +1,4 @@
 "use client";
-import { Transforms } from "slate";
 import { cn } from "@/utils/twmarge";
 import { Button } from "@/components/editor/button";
 import { ReactEditor, useSelected, useSlate } from "slate-react";
