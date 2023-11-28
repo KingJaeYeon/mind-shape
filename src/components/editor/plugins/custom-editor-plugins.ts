@@ -18,53 +18,11 @@ import {
   HR,
   LIST_ITEM,
   LIST_TYPES,
-  MARK_BOLD,
-  MARK_CODE,
-  MARK_ITALIC,
   MARK_LINK,
-  MARK_UNDERLINE,
   NUMBER_LIST,
   TEXT_ALIGN_TYPES,
   TYPE,
 } from "@/constant/slate";
-import {
-  MARK_BOLD_HOTKEY,
-  MARK_CODE_HOTKEY,
-  MARK_ITALIC_HOTKEY,
-  MARK_UNDERLINE_HOTKEY,
-} from "@/constant/slate-hotkey";
-
-export const keydownEventPlugin = (event: any, editor: any) => {
-  if (!event.ctrlKey) return;
-
-  switch (event.key) {
-    case MARK_CODE_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_CODE);
-      break;
-    }
-    case MARK_BOLD_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_BOLD);
-      break;
-    }
-    case MARK_UNDERLINE_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_UNDERLINE);
-      break;
-    }
-    case MARK_ITALIC_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_ITALIC);
-      break;
-    }
-  }
-};
-
-export const ShiftEnter = (event: any, editor: any) => {
-  event.preventDefault();
-  editor.insertText(`\n`);
-};
 
 export const ListDeleter = {
   isElementListType(editor: any) {
@@ -183,11 +141,15 @@ export const MarkEditor = {
 
   toggleMark(editor: any, format: MarkFormat) {
     const isActive = MarkEditor.isMarkActive(editor, format);
+    console.log("toggleMark");
     if (isActive) {
       SlateEditor.removeMark(editor, format);
     } else {
       SlateEditor.addMark(editor, format, true);
     }
+  },
+  removeMark(editor: any, format: MarkFormat) {
+    SlateEditor.removeMark(editor, format);
   },
 };
 

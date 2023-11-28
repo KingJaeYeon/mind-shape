@@ -101,14 +101,15 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
   if (leaf.underline) {
     children = <u>{children}</u>;
   }
-  if (leaf.code) {
+  if (leaf.code && leaf.text.length > 0) {
+    console.log("leaf.code", leaf.code);
     children = (
       <code className={`rounded bg-gray-100 p-0.5 text-[18px] font-thin`}>
         {children}
       </code>
     );
   }
-  if (leaf.link) {
+  if (leaf.link && leaf.text.length > 0) {
     leaf.link = leaf.link.includes("https://")
       ? leaf.link
       : `https://${leaf.link}`;
