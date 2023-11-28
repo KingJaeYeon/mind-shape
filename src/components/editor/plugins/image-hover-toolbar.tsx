@@ -6,6 +6,7 @@ import { ReactEditor, useSelected, useSlate } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
 import { useEffect, useRef } from "react";
 import { Menu } from "@/components/editor/hover-toolbar-menu";
+import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 
 export default function ImageHoverToolbar({ element }: { element: any }) {
   const selected = useSelected();
@@ -14,41 +15,7 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
   const path = ReactEditor.findPath(editor, element);
   const display = selected ? `inline` : `hidden`;
 
-  //빈배열을 제공하지 않으면 컴포넌트가 렌더링될 때마다 동작한다.
-  useEffect(() => {
-    const el = ref.current;
-    const { selection } = editor;
-    console.log(selection);
-    if (!el) return;
-
-    // if (
-    //   !selection ||
-    //   !selected ||
-    //   Range.isCollapsed(selection) ||
-    //   SlateEditor.string(editor, selection) === ""
-    // ) {
-    //   console.log("selection", selection);
-    //   console.log("selected", selected);
-    //   el.removeAttribute("style");
-    //   return;
-    // }
-
-    if (!selection || !selected) {
-      el.removeAttribute("style");
-      return;
-    }
-
-    const domSelection = window.getSelection();
-    if (!domSelection) return;
-    const domRange = domSelection.getRangeAt(0);
-    const rect = domRange.getBoundingClientRect();
-    console.log(rect);
-    el.style.opacity = "1";
-    el.style.top = `${rect.top + window.pageYOffset - el.offsetHeight}px`;
-    el.style.left = `${
-      rect.left + window.pageXOffset - el.offsetWidth / 2 + rect.width / 2
-    }px`;
-  });
+  useHoverToolbarPosition(ref, editor, selected, "image");
 
   return (
     <Portal>
@@ -68,10 +35,34 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         <Button
           // active
           onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
-          className={cn(``, display)}
+          className={cn(`px-1.5 py-0.5`, display)}
         >
           {/*<Icon>delete</Icon>*/}
           <div>delete</div>
+        </Button>
+        <Button
+          // active
+          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          className={cn(`px-1.5 py-0.5`, display)}
+        >
+          {/*<Icon>delete</Icon>*/}
+          <div>F</div>
+        </Button>
+        <Button
+          // active
+          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          className={cn(`px-1.5 py-0.5`, display)}
+        >
+          {/*<Icon>delete</Icon>*/}
+          <div>M</div>
+        </Button>
+        <Button
+          // active
+          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          className={cn(`px-1.5 py-0.5`, display)}
+        >
+          {/*<Icon>delete</Icon>*/}
+          <div>S</div>
         </Button>
       </Menu>
     </Portal>
