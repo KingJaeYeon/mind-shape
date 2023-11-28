@@ -1,12 +1,18 @@
 "use client";
-import { Transforms, Range, Editor as SlateEditor } from "slate";
+import { Transforms } from "slate";
 import { cn } from "@/utils/twmarge";
 import { Button } from "@/components/editor/button";
 import { ReactEditor, useSelected, useSlate } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { Menu } from "@/components/editor/hover-toolbar-menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
+import { ImageEditor } from "@/components/editor/plugins/custom-editor-plugins";
+import {
+  IMAGE_SIZE_LARGE,
+  IMAGE_SIZE_MIDDLE,
+  IMAGE_SIZE_SMALL,
+} from "@/constant/slate";
 
 export default function ImageHoverToolbar({ element }: { element: any }) {
   const selected = useSelected();
@@ -16,7 +22,6 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
   const display = selected ? `inline` : `hidden`;
 
   useHoverToolbarPosition(ref, editor, selected, "image");
-
   return (
     <Portal>
       <Menu
@@ -34,7 +39,7 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
       >
         <Button
           // active
-          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          onclickHandler={() => ImageEditor.removeImage(editor, path)}
           className={cn(`px-1.5 py-0.5`, display)}
         >
           {/*<Icon>delete</Icon>*/}
@@ -42,7 +47,9 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         </Button>
         <Button
           // active
-          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_LARGE)
+          }
           className={cn(`px-1.5 py-0.5`, display)}
         >
           {/*<Icon>delete</Icon>*/}
@@ -50,7 +57,9 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         </Button>
         <Button
           // active
-          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_MIDDLE)
+          }
           className={cn(`px-1.5 py-0.5`, display)}
         >
           {/*<Icon>delete</Icon>*/}
@@ -58,7 +67,9 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         </Button>
         <Button
           // active
-          onclickHandler={() => Transforms.removeNodes(editor, { at: path })}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_SMALL)
+          }
           className={cn(`px-1.5 py-0.5`, display)}
         >
           {/*<Icon>delete</Icon>*/}

@@ -1,11 +1,13 @@
 import {
   Editor as SlateEditor,
   Element as SlateElement,
+  Path,
   Transforms,
 } from "slate";
 import {
   CustomText,
   HRElement,
+  ImageFormat,
   MarkFormat,
   ParagraphElement,
 } from "../../../../@types/slate";
@@ -163,7 +165,15 @@ export const BlockEditor = {
     Transforms.setNodes<SlateElement>(editor, newProperties);
   },
 };
-
+export const ImageEditor = {
+  toggleImage(editor: any, format: ImageFormat) {
+    console.log(editor);
+    Transforms.setNodes<SlateElement>(editor, { size: format });
+  },
+  removeImage(editor: any, path: Path) {
+    Transforms.removeNodes(editor, { at: path });
+  },
+};
 export const MarkEditor = {
   isMarkActive(editor: any, format: MarkFormat) {
     const marks: Omit<CustomText, `text`> | null = SlateEditor.marks(editor);

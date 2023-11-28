@@ -7,21 +7,22 @@ import { CustomEditor } from "../../@types/slate";
 
 type State = {
   editor: CustomEditor;
-  shift: boolean;
+  element: any;
 };
+
 type Action = {
-  setShift: (shift: boolean) => void;
+  setElement: (props: any) => void;
   reset: () => void;
 };
 
 const initialState: State = {
   editor: withImages(withReact(withHistory(createEditor()))),
-  shift: false,
+  element: null,
 };
 
 export const useEditorStore = create<State & Action>()((set) => ({
   editor: withImages(withReact(withHistory(createEditor()))),
-  shift: false,
-  setShift: (shift: boolean) => set({ shift }),
+  element: null,
+  setElement: (props: any) => set(() => ({ element: props })),
   reset: () => set(initialState),
 }));
