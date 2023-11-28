@@ -3,7 +3,6 @@ import React, { PropsWithChildren, useEffect, useRef } from "react";
 import { useFocused, useSlate } from "slate-react";
 import { Editor as SlateEditor, Range } from "slate";
 import { Portal } from "@/components/editor/Portal";
-import { cn } from "@/utils/twmarge";
 import { Button } from "@/components/editor/button";
 import {
   BlockEditor,
@@ -17,11 +16,7 @@ import {
   MARK_ITALIC,
   MARK_UNDERLINE,
 } from "@/constant/slate";
-
-interface BaseProps {
-  className: string;
-  [key: string]: unknown;
-}
+import { Menu } from "@/components/editor/hover-toolbar-menu";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -124,19 +119,3 @@ export default function HoverToolbar() {
     </Portal>
   );
 }
-
-export const Menu = React.forwardRef<
-  HTMLDivElement,
-  PropsWithChildren<BaseProps>
->(({ className, ...props }, ref) => {
-  return (
-    <div
-      {...props}
-      data-test-id="menu"
-      ref={ref}
-      className={cn(``, className)}
-    />
-  );
-});
-
-Menu.displayName = "Menu";
