@@ -3,20 +3,22 @@ import React from "react";
 import { Title } from "@/components/editor/title";
 import { Editable, Slate } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
-import { BLOCK_PARAGRAPH, MARK_LINK } from "@/constant/slate";
+import { BLOCK_PARAGRAPH, MARK_CODE, MARK_LINK } from "@/constant/slate";
 import {
   renderElement,
   renderLeaf,
 } from "@/components/editor/plugins/element-render";
 import { Toolbar } from "@/components/editor/toolbar";
 import {
-  keydownEventPlugin,
   LinkEditor,
-  ListDeleter,
-  ShiftEnter,
+  MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
-import { Descendant } from "slate";
+import { Descendant, Transforms } from "slate";
 import HoverToolbar from "@/components/editor/plugins/hover-toolbar";
+import {
+  EventKeyPlugins,
+  keydownEventPlugin,
+} from "@/components/editor/plugins/event-key-plugins";
 
 const initialValue: Descendant[] = [
   {
@@ -59,18 +61,9 @@ function Editor() {
             className={`min-h-[60vh] w-full max-w-full outline-none`}
             renderElement={renderElement}
             onKeyDownCapture={(event) => {
-              if (event.key === `Enter` && event.shiftKey) {
-                ShiftEnter(event, editor);
-              }
-              if (event.key === `Backspace` || event.key === `Delete`) {
-                ListDeleter.ActionHandler(editor, event);
-              }
-              if (event.key === `Enter`) {
-                const isActive = LinkEditor.isLinkActive(editor, MARK_LINK);
-                if (isActive) {
-                  LinkEditor.removeLink(editor);
-                }
-              }
+              EventKeyPlugins.ShiftEnter(event, editor);
+              EventKeyPlugins.DeleteLister(event, editor);
+              EventKeyPlugins.CodeOrLinkEnter(event, editor);
             }}
             renderLeaf={renderLeaf}
             onKeyDown={(event) => {
