@@ -1,14 +1,13 @@
 "use client";
 
 import { Button } from "@/components/editor/button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useEditorStore } from "@/store/editorStore";
 import { animated, useSpring } from "@react-spring/web";
 import { cn } from "@/utils/twmarge";
-import { useFocused, useSelected } from "slate-react";
 
 export default function LinkButton({ isHoverButton = false }) {
-  const { editor, setLink, isLink } = useEditorStore((state) => state);
+  const { setLink } = useEditorStore((state) => state);
   const [show, isShow] = useState<boolean>(false);
   const border = isHoverButton ? "" : "border border-gray-300";
 
