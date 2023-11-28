@@ -9,14 +9,7 @@ declare module "slate" {
   }
 }
 
-import {
-  BaseEditor,
-  BaseRange,
-  Descendant,
-  Element,
-  Operation,
-  Range,
-} from "slate";
+import { BaseEditor, BaseRange, Descendant, Element, Range } from "slate";
 import { ReactEditor } from "slate-react";
 import { HistoryEditor } from "slate-history";
 
@@ -33,6 +26,9 @@ import {
   EDITABLE_VOID,
   HR,
   IMAGE,
+  IMAGE_SIZE_LARGE,
+  IMAGE_SIZE_MIDDLE,
+  IMAGE_SIZE_SMALL,
   LIST_ITEM,
   MARK_BOLD,
   MARK_CODE,
@@ -91,6 +87,7 @@ export type HeadingThreeElement = {
 
 export type ImageElement = {
   type: IMAGE;
+  size: string;
   url: string;
   children: EmptyText[];
 };
@@ -181,6 +178,11 @@ export type MarkFormat =
   | typeof MARK_CODE
   | typeof MARK_ITALIC
   | typeof MARK_UNDERLINE;
+
+export type ImageFormat =
+  | typeof IMAGE_SIZE_LARGE
+  | typeof IMAGE_SIZE_MIDDLE
+  | typeof IMAGE_SIZE_SMALL;
 
 export type EmptyText = {
   text: string;

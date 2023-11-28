@@ -1,7 +1,6 @@
 "use client";
-import React, { PropsWithChildren, useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import { useFocused, useSlate } from "slate-react";
-import { Editor as SlateEditor, Range } from "slate";
 import { Portal } from "@/components/editor/Portal";
 import { Button } from "@/components/editor/button";
 import {

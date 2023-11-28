@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/editor/button";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useEditorStore } from "@/store/editorStore";
 import { animated, useSpring } from "@react-spring/web";
 
