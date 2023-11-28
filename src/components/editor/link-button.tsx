@@ -1,27 +1,28 @@
 "use client";
 
 import { Button } from "@/components/editor/button";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useEditorStore } from "@/store/editorStore";
 import { animated, useSpring } from "@react-spring/web";
+import { cn } from "@/utils/twmarge";
+import { useFocused, useSelected } from "slate-react";
 
-export default function LinkButton() {
-  const { editor } = useEditorStore((state) => state);
+export default function LinkButton({ isHoverButton = false }) {
+  const { editor, setLink, isLink } = useEditorStore((state) => state);
   const [show, isShow] = useState<boolean>(false);
+  const border = isHoverButton ? "" : "border border-gray-300";
 
   return (
     <div>
       <Button
         onclickHandler={() => {
-          // MarkEditor.toggleMark(editor, MARK_ITALIC);
-          isShow((show) => !show);
-          console.log(editor.selection?.anchor);
+          setLink(true);
         }}
-        className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
+        className={cn(`flex px-1.5 py-0.5 italic`, border)}
       >
         Link
       </Button>
-      <DropDown show={show} />
+      {/*<DropDown show={show} />*/}
     </div>
   );
 }
@@ -35,7 +36,13 @@ function DropDown({ show }: { show: boolean }) {
   if (!show) return;
   return (
     <animated.div
-      style={{ width: 50, height: 50, background: "black", ...springs }}
+      style={{
+        position: "absolute",
+        width: 50,
+        height: 50,
+        background: "black",
+        ...springs,
+      }}
     >
       dd
     </animated.div>

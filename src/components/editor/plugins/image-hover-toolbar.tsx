@@ -22,12 +22,13 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
   const display = selected ? `inline` : `hidden`;
 
   useHoverToolbarPosition(ref, editor, selected, "image");
+
   return (
     <Portal>
       <Menu
         ref={ref}
         className={
-          "z-1 absolute flex rounded-[4px] bg-[#222] p-[8px_7px_6px] text-white opacity-0"
+          "z-1 absolute hidden rounded-[4px] bg-[#222] p-[8px_7px_6px] text-white"
         }
         style={{
           transition: "opacity 0.75s",
