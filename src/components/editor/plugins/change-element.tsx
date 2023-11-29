@@ -116,7 +116,7 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
     children = (
       <Tooltip.Root>
         <Tooltip.Trigger asChild>
-          <u>{children}</u>
+          <span className={"text-[#3f6aef]"}>{children}</span>
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content

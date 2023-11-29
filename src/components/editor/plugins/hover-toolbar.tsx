@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { useFocused, useSlate, useSlateStatic } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
 import { Button } from "@/components/editor/button";
+import * as Toolbar from "@radix-ui/react-toolbar";
 import {
   BlockEditor,
   LinkEditor,
@@ -19,10 +20,16 @@ import {
 } from "@/constant/slate";
 import { Menu } from "@/components/editor/hover-toolbar-menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
-import LinkButton from "@/components/editor/link-button";
 import { useEditorStore } from "@/store/editorStore";
 import { cn } from "@/utils/twmarge";
-import { IconBold } from "@/public/svg";
+import {
+  IconBold,
+  IconCode,
+  IconItalic,
+  IconLink,
+  IconUnderLined,
+} from "@/public/svg";
+import { ToggleItem } from "@/components/shared/Toolbar";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -31,7 +38,6 @@ export default function HoverToolbar() {
   const inFocus = useFocused();
   const [inputValue, setInputValue] = useState("");
   useHoverToolbarPosition(ref, editor, inFocus, "default", isLink);
-
   const menuStyled = isLink ? "text-black flex-row" : "text-white";
 
   useEffect(() => {
@@ -46,7 +52,7 @@ export default function HoverToolbar() {
       <Menu
         ref={ref}
         className={cn(
-          "absolute z-20 hidden rounded-[4px] bg-[#222] p-[8px_7px_6px]",
+          "absolute z-20 hidden rounded-[4px] bg-[#222]",
           menuStyled,
         )}
         style={{
@@ -68,42 +74,113 @@ export default function HoverToolbar() {
 
 function DefaultMenu() {
   const editor = useSlateStatic();
+  const { setLink } = useEditorStore((state) => state);
+  const isLinkActive = LinkEditor.isLinkActive(editor, MARK_LINK);
   return (
-    <>
-      <LinkButton isHoverButton={true} />
-      <Button
-        title={`ctrl+b`}
-        onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_BOLD);
-        }}
-        className={`flex px-0.5 py-0.5`}
+    // <>
+    //   <LinkButton isHoverButton={true} />
+    //   <Button
+    //     title={`ctrl+b`}
+    //     onclickHandler={() => {
+    //       MarkEditor.toggleMark(editor, MARK_BOLD);
+    //     }}
+    //     className={`flex px-0.5 py-0.5`}
+    //   >
+    //     <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
+    //   </Button>
+    //   <Button
+    //     onclickHandler={() => {
+    //       MarkEditor.toggleMark(editor, MARK_CODE);
+    //     }}
+    //     className={`flex px-1.5 py-0.5`}
+    //   >
+    //     C
+    //   </Button>
+    //   <Button
+    //     onclickHandler={() => {
+    //       MarkEditor.toggleMark(editor, MARK_UNDERLINE);
+    //     }}
+    //     className={`flex px-1.5 py-0.5`}
+    //   >
+    //     U
+    //   </Button>
+    //   <Button
+    //     onclickHandler={() => {
+    //       MarkEditor.toggleMark(editor, MARK_ITALIC);
+    //     }}
+    //     className={`flex px-1.5 py-0.5 italic`}
+    //   >
+    //     I
+    //   </Button>
+    //   <Button
+    //     onclickHandler={() => {
+    //       BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
+    //     }}
+    //     className={`flex px-1.5 py-0.5`}
+    //   >
+    //     H1
+    //   </Button>
+    //   <Button
+    //     onclickHandler={() => {
+    //       BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
+    //     }}
+    //     className={`flex px-1.5 py-0.5`}
+    //   >
+    //     H2
+    //   </Button>
+    // </>
+    <Toolbar.Root className={"flex h-[44px] items-center gap-1 px-[10px]"}>
+      <Toolbar.ToggleGroup
+        type="multiple"
+        aria-label="MarkBlock"
+        className={"flex gap-1"}
       >
-        <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
-      </Button>
-      <Button
-        onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_CODE);
-        }}
-        className={`flex px-1.5 py-0.5`}
-      >
-        C
-      </Button>
-      <Button
-        onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_UNDERLINE);
-        }}
-        className={`flex px-1.5 py-0.5`}
-      >
-        U
-      </Button>
-      <Button
-        onclickHandler={() => {
-          MarkEditor.toggleMark(editor, MARK_ITALIC);
-        }}
-        className={`flex px-1.5 py-0.5 italic`}
-      >
-        I
-      </Button>
+        <ToggleItem
+          value={"bold"}
+          ariaLabel={"Bold"}
+          onClick={() => MarkEditor.toggleMark(editor, MARK_BOLD)}
+        >
+          <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
+        </ToggleItem>
+
+        <ToggleItem
+          value={"link"}
+          ariaLabel={"Link"}
+          onClick={() =>
+            isLinkActive ? LinkEditor.removeLink(editor) : setLink(true)
+          }
+        >
+          <IconLink isActive={isLinkActive} />
+        </ToggleItem>
+
+        <ToggleItem
+          value={"italic"}
+          ariaLabel={"Italic"}
+          onClick={() => MarkEditor.toggleMark(editor, MARK_ITALIC)}
+        >
+          <IconItalic isActive={MarkEditor.isMarkActive(editor, MARK_ITALIC)} />
+        </ToggleItem>
+
+        <ToggleItem
+          value={"code"}
+          ariaLabel={"Code"}
+          onClick={() => MarkEditor.toggleMark(editor, MARK_CODE)}
+        >
+          <IconCode isActive={MarkEditor.isMarkActive(editor, MARK_CODE)} />
+        </ToggleItem>
+
+        <ToggleItem
+          value={"underlined"}
+          ariaLabel={"UnderLined"}
+          className={"relative top-[2px]"}
+          onClick={() => MarkEditor.toggleMark(editor, MARK_UNDERLINE)}
+        >
+          <IconUnderLined
+            isActive={MarkEditor.isMarkActive(editor, MARK_UNDERLINE)}
+          />
+        </ToggleItem>
+      </Toolbar.ToggleGroup>
+      <Toolbar.Separator className="mx-[4px] h-[24px] w-[1px] bg-[rgba(255,255,255,.2)]" />
       <Button
         onclickHandler={() => {
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
@@ -120,7 +197,7 @@ function DefaultMenu() {
       >
         H2
       </Button>
-    </>
+    </Toolbar.Root>
   );
 }
 
@@ -134,16 +211,16 @@ function LinkInput({
   const { setLink } = useEditorStore((state) => state);
   const editor = useSlateStatic();
   return (
-    <>
+    <div className={"flex p-[8px_7px_6px]"}>
       <input
         value={inputValue}
-        className={"w-[150px] bg-[#222] text-[12px] text-white outline-none"}
+        className={"w-[180px] bg-[#222] text-[14px] text-white outline-none"}
         autoFocus={true}
         placeholder={"Paste or type a link..."}
         onChange={(e) => setInputValue(e.target.value)}
       />
       <Button
-        className={"flex px-1.5 py-0.5 text-[12px] text-white"}
+        className={"flex px-1.5 py-0.5 text-[14px] text-white"}
         onclickHandler={() => {
           LinkEditor.addLink(editor, MARK_LINK, inputValue);
           setLink(false);
@@ -151,6 +228,6 @@ function LinkInput({
       >
         확인
       </Button>
-    </>
+    </div>
   );
 }
