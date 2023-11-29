@@ -22,6 +22,7 @@ import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 import LinkButton from "@/components/editor/link-button";
 import { useEditorStore } from "@/store/editorStore";
 import { cn } from "@/utils/twmarge";
+import { IconBold } from "@/public/svg";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,15 +76,15 @@ function DefaultMenu() {
         onclickHandler={() => {
           MarkEditor.toggleMark(editor, MARK_BOLD);
         }}
-        className={`flex px-1.5 py-0.5 italic`}
+        className={`flex px-0.5 py-0.5`}
       >
-        B
+        <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
       </Button>
       <Button
         onclickHandler={() => {
           MarkEditor.toggleMark(editor, MARK_CODE);
         }}
-        className={`flex px-1.5 py-0.5 italic`}
+        className={`flex px-1.5 py-0.5`}
       >
         C
       </Button>
@@ -91,7 +92,7 @@ function DefaultMenu() {
         onclickHandler={() => {
           MarkEditor.toggleMark(editor, MARK_UNDERLINE);
         }}
-        className={`flex px-1.5 py-0.5 italic`}
+        className={`flex px-1.5 py-0.5`}
       >
         U
       </Button>
@@ -107,7 +108,7 @@ function DefaultMenu() {
         onclickHandler={() => {
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
         }}
-        className={`flex px-1.5 py-0.5 italic`}
+        className={`flex px-1.5 py-0.5`}
       >
         H1
       </Button>
@@ -115,7 +116,7 @@ function DefaultMenu() {
         onclickHandler={() => {
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
         }}
-        className={`flex px-1.5 py-0.5 italic`}
+        className={`flex px-1.5 py-0.5`}
       >
         H2
       </Button>
@@ -136,11 +137,13 @@ function LinkInput({
     <>
       <input
         value={inputValue}
+        className={"w-[150px] bg-[#222] text-[12px] text-white outline-none"}
         autoFocus={true}
+        placeholder={"Paste or type a link..."}
         onChange={(e) => setInputValue(e.target.value)}
       />
       <Button
-        className={"flex px-1.5 py-0.5 italic text-white"}
+        className={"flex px-1.5 py-0.5 text-[12px] text-white"}
         onclickHandler={() => {
           LinkEditor.addLink(editor, MARK_LINK, inputValue);
           setLink(false);

@@ -7,7 +7,7 @@ import { cn } from "@/utils/twmarge";
 import { LinkEditor } from "@/components/editor/plugins/custom-editor-plugins";
 import { MARK_LINK } from "@/constant/slate";
 import { useSlateStatic } from "slate-react";
-
+import { IconLink } from "@/public/svg";
 export default function LinkButton({ isHoverButton = false }) {
   const { setLink } = useEditorStore((state) => state);
   const border = isHoverButton ? "" : "border border-gray-300";
@@ -17,12 +17,11 @@ export default function LinkButton({ isHoverButton = false }) {
     <div>
       <Button
         onclickHandler={() => {
-          console.log(isActive);
           isActive ? LinkEditor.removeLink(editor) : setLink(true);
         }}
-        className={cn(`flex px-1.5 py-0.5 italic`, border)}
+        className={cn(`flex px-0.5 py-0.5`, border)}
       >
-        Link
+        <IconLink isActive={isActive} />
       </Button>
     </div>
   );
