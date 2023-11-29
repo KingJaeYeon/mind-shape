@@ -29,7 +29,11 @@ import {
   IconLink,
   IconUnderLined,
 } from "@/public/svg";
-import { ToggleItem } from "@/components/shared/Toolbar";
+import {
+  ToggleGroup,
+  ToggleItem,
+  ToggleSeparator,
+} from "@/components/shared/Toolbar";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -75,6 +79,7 @@ export default function HoverToolbar() {
 function DefaultMenu() {
   const editor = useSlateStatic();
   const { setLink } = useEditorStore((state) => state);
+  const [person, setPerson] = React.useState("pedro");
   const isLinkActive = LinkEditor.isLinkActive(editor, MARK_LINK);
   return (
     // <>
@@ -130,19 +135,30 @@ function DefaultMenu() {
     //   </Button>
     // </>
     <Toolbar.Root className={"flex h-[44px] items-center gap-1 px-[10px]"}>
-      <Toolbar.ToggleGroup
-        type="multiple"
-        aria-label="MarkBlock"
-        className={"flex gap-1"}
-      >
+      <ToggleGroup type={"single"} defaultValue="bold">
         <ToggleItem
           value={"bold"}
           ariaLabel={"Bold"}
-          onClick={() => MarkEditor.toggleMark(editor, MARK_BOLD)}
+          onClick={() => {
+            MarkEditor.removeMark(editor, MARK_CODE);
+            MarkEditor.toggleMark(editor, MARK_BOLD);
+          }}
         >
           <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
         </ToggleItem>
-
+        <ToggleItem
+          value={"code"}
+          ariaLabel={"Code"}
+          onClick={() => {
+            MarkEditor.removeMark(editor, MARK_BOLD);
+            MarkEditor.toggleMark(editor, MARK_CODE);
+          }}
+        >
+          <IconCode isActive={MarkEditor.isMarkActive(editor, MARK_CODE)} />
+        </ToggleItem>
+      </ToggleGroup>
+      <ToggleSeparator />
+      <ToggleGroup type={"multiple"}>
         <ToggleItem
           value={"link"}
           ariaLabel={"Link"}
@@ -162,14 +178,6 @@ function DefaultMenu() {
         </ToggleItem>
 
         <ToggleItem
-          value={"code"}
-          ariaLabel={"Code"}
-          onClick={() => MarkEditor.toggleMark(editor, MARK_CODE)}
-        >
-          <IconCode isActive={MarkEditor.isMarkActive(editor, MARK_CODE)} />
-        </ToggleItem>
-
-        <ToggleItem
           value={"underlined"}
           ariaLabel={"UnderLined"}
           className={"relative top-[2px]"}
@@ -179,8 +187,8 @@ function DefaultMenu() {
             isActive={MarkEditor.isMarkActive(editor, MARK_UNDERLINE)}
           />
         </ToggleItem>
-      </Toolbar.ToggleGroup>
-      <Toolbar.Separator className="mx-[4px] h-[24px] w-[1px] bg-[rgba(255,255,255,.2)]" />
+      </ToggleGroup>
+      <ToggleSeparator />
       <Button
         onclickHandler={() => {
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
