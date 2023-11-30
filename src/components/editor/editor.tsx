@@ -72,7 +72,7 @@ function Editor() {
               }
             }}
           />
-          <div className={`h-[200px] border border-gray-300`}>
+          <div className={`h-[200px] border border-gray-300 bg-red-100`}>
             <p>dmkdmk</p>
           </div>
         </div>
