@@ -1,13 +1,14 @@
 "use client";
 import React, { useEffect } from "react";
 import { Transforms } from "slate";
-import { ReactEditor, useSlateStatic } from "slate-react";
+import { ReactEditor, useReadOnly, useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
 import { useEditorStore } from "@/store/editorStore";
 
 export const Title = () => {
   const { title, setTitle } = useEditorStore((state) => state);
   const editor = useSlateStatic();
+  const isReadOnly = useReadOnly();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = (e: any) => {
     if (textareaRef.current) {
@@ -38,6 +39,7 @@ export const Title = () => {
     <div className={`w-full`}>
       <textarea
         value={title}
+        readOnly={!isReadOnly}
         rows={1}
         ref={textareaRef}
         placeholder="제목"

@@ -1,6 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import { useEditorStore } from "@/store/editorStore";
+import { useReadOnly } from "slate-react";
+import SubmitButton from "@/components/testfoler/submitButton";
 const categories = [
   "금전/계약",
   "기업 법무",
@@ -15,15 +17,19 @@ const categories = [
 ];
 export default function Category() {
   const { category, setCategory } = useEditorStore((state) => state);
+  const isReadOnly = useReadOnly();
   useEffect(() => {
     const storedContent = localStorage.getItem("category");
     setCategory(!!storedContent ? storedContent : "");
   }, []);
+
   return (
     <div className={"mb-[20px] flex w-full max-w-[45rem] justify-end"}>
+      <SubmitButton />
       <select
         value={category}
         onChange={(e) => {
+          if (!isReadOnly) return;
           setCategory(e.target.value);
           localStorage.setItem("category", e.target.value);
         }}
