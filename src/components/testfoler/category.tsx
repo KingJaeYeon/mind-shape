@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { useEditorStore } from "@/store/editorStore";
 const categories = [
   "금전/계약",
@@ -15,11 +15,18 @@ const categories = [
 ];
 export default function Category() {
   const { category, setCategory } = useEditorStore((state) => state);
+  useEffect(() => {
+    const storedContent = localStorage.getItem("category");
+    setCategory(!!storedContent ? storedContent : "");
+  }, []);
   return (
     <div className={"mb-[20px] flex w-full max-w-[45rem] justify-end"}>
       <select
         value={category}
-        onChange={(e) => setCategory(e.target.value)}
+        onChange={(e) => {
+          setCategory(e.target.value);
+          localStorage.setItem("category", e.target.value);
+        }}
         id="cars"
         className={
           "h-[40px] w-auto rounded-[4px] border border-gray-300 px-[10px]"

@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Transforms } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
@@ -16,6 +16,7 @@ export const Title = () => {
         textareaRef.current.scrollHeight + `px`;
     }
     setTitle(e.target.value);
+    localStorage.setItem("title", e.target.value);
     console.log(title);
   };
   const handleKeyDown = (event: any) => {
@@ -29,6 +30,10 @@ export const Title = () => {
     }
   };
 
+  useEffect(() => {
+    const storedContent = localStorage.getItem("title");
+    setTitle(!!storedContent ? storedContent : "");
+  }, []);
   return (
     <div className={`w-full`}>
       <textarea
