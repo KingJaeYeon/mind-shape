@@ -1,17 +1,22 @@
+"use client";
 import React from "react";
 import { Transforms } from "slate";
 import { ReactEditor, useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
+import { useEditorStore } from "@/store/editorStore";
 
 export const Title = () => {
+  const { title, setTitle } = useEditorStore((state) => state);
   const editor = useSlateStatic();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const handleResizeHeight = () => {
+  const handleResizeHeight = (e: any) => {
     if (textareaRef.current) {
       textareaRef.current.style.height = `auto`;
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + `px`;
     }
+    setTitle(e.target.value);
+    console.log(title);
   };
   const handleKeyDown = (event: any) => {
     if (event.key === `Enter`) {
@@ -27,6 +32,7 @@ export const Title = () => {
   return (
     <div className={`w-full`}>
       <textarea
+        value={title}
         rows={1}
         ref={textareaRef}
         placeholder="제목"

@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
-import { useFocused, useSlate, useSlateStatic } from "slate-react";
+import { useFocused, useReadOnly, useSlate, useSlateStatic } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
 import { Button } from "@/components/editor/button";
 import * as Toolbar from "@radix-ui/react-toolbar";
@@ -12,6 +12,7 @@ import {
 import {
   BLOCK_HEADING_ONE,
   BLOCK_HEADING_TWO,
+  BLOCK_QUOTE,
   MARK_BOLD,
   MARK_CODE,
   MARK_ITALIC,
@@ -27,6 +28,7 @@ import {
   IconCode,
   IconItalic,
   IconLink,
+  IconQuote,
   IconUnderLined,
 } from "@/public/svg";
 import {
@@ -79,61 +81,10 @@ export default function HoverToolbar() {
 function DefaultMenu() {
   const editor = useSlateStatic();
   const { setLink } = useEditorStore((state) => state);
-  const [person, setPerson] = React.useState("pedro");
+  const isReadOnly = useReadOnly();
   const isLinkActive = LinkEditor.isLinkActive(editor, MARK_LINK);
+  if (isReadOnly) return null;
   return (
-    // <>
-    //   <LinkButton isHoverButton={true} />
-    //   <Button
-    //     title={`ctrl+b`}
-    //     onclickHandler={() => {
-    //       MarkEditor.toggleMark(editor, MARK_BOLD);
-    //     }}
-    //     className={`flex px-0.5 py-0.5`}
-    //   >
-    //     <IconBold isActive={MarkEditor.isMarkActive(editor, MARK_BOLD)} />
-    //   </Button>
-    //   <Button
-    //     onclickHandler={() => {
-    //       MarkEditor.toggleMark(editor, MARK_CODE);
-    //     }}
-    //     className={`flex px-1.5 py-0.5`}
-    //   >
-    //     C
-    //   </Button>
-    //   <Button
-    //     onclickHandler={() => {
-    //       MarkEditor.toggleMark(editor, MARK_UNDERLINE);
-    //     }}
-    //     className={`flex px-1.5 py-0.5`}
-    //   >
-    //     U
-    //   </Button>
-    //   <Button
-    //     onclickHandler={() => {
-    //       MarkEditor.toggleMark(editor, MARK_ITALIC);
-    //     }}
-    //     className={`flex px-1.5 py-0.5 italic`}
-    //   >
-    //     I
-    //   </Button>
-    //   <Button
-    //     onclickHandler={() => {
-    //       BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
-    //     }}
-    //     className={`flex px-1.5 py-0.5`}
-    //   >
-    //     H1
-    //   </Button>
-    //   <Button
-    //     onclickHandler={() => {
-    //       BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
-    //     }}
-    //     className={`flex px-1.5 py-0.5`}
-    //   >
-    //     H2
-    //   </Button>
-    // </>
     <Toolbar.Root className={"flex h-[44px] items-center gap-1 px-[10px]"}>
       <ToggleGroup type={"single"} defaultValue="bold">
         <ToggleItem
@@ -185,6 +136,17 @@ function DefaultMenu() {
         >
           <IconUnderLined
             isActive={MarkEditor.isMarkActive(editor, MARK_UNDERLINE)}
+          />
+        </ToggleItem>
+        <ToggleItem
+          value={"quote"}
+          ariaLabel={"Quote"}
+          className={"relative top-[2px]"}
+          onClick={() => BlockEditor.toggleBlock(editor, BLOCK_QUOTE)}
+        >
+          <IconQuote
+            isActive={BlockEditor.isBlockActive(editor, BLOCK_QUOTE)}
+            css={{ width: "17px", height: "17px" }}
           />
         </ToggleItem>
       </ToggleGroup>

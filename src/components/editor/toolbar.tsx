@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "./button";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   BlockEditor,
   HREditor,
@@ -12,6 +12,7 @@ import {
   BLOCK_HEADING_THREE,
   BLOCK_HEADING_TWO,
   BLOCK_PARAGRAPH,
+  BLOCK_QUOTE,
   BULLETED_LIST,
   MARK_BOLD,
   MARK_CODE,
@@ -24,6 +25,7 @@ import {
 } from "@/constant/slate";
 import ImageButton from "@/components/editor/image-button";
 import { useSlateStatic } from "slate-react";
+import { cn } from "@/utils/twmarge";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
   const editor = useSlateStatic();
@@ -72,6 +74,15 @@ export const Toolbar = ({ show }: { show: boolean }) => {
         className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
       >
         I
+      </Button>
+      <Button
+        title={`ctrl+b`}
+        onclickHandler={() => {
+          BlockEditor.toggleBlock(editor, BLOCK_QUOTE);
+        }}
+        className={cn(`flex border border-gray-300 px-1.5 py-0.5 italic`)}
+      >
+        {'"'}
       </Button>
       <Button
         onclickHandler={() => {
