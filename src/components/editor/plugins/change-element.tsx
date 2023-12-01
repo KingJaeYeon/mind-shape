@@ -3,6 +3,7 @@ import {
   BLOCK_HEADING_ONE,
   BLOCK_HEADING_THREE,
   BLOCK_HEADING_TWO,
+  BLOCK_QUOTE,
   BULLETED_LIST,
   HR,
   IMAGE,
@@ -12,6 +13,7 @@ import {
 import { HrElement } from "@/components/editor/plugins/hr-element";
 import { ImageElement } from "@/components/editor/plugins/image-element";
 import * as Tooltip from "@radix-ui/react-tooltip";
+import { IconQuote } from "@/public/svg";
 
 export type ElementProps = {
   attributes: any;
@@ -72,6 +74,24 @@ export const Element = ({ attributes, children, element }: ElementProps) => {
           {children}
         </ol>
       );
+    case BLOCK_QUOTE:
+      return (
+        <div className={"relative"}>
+          <blockquote
+            style={style}
+            className={`mb-2 ml-[20px] gap-[5px] text-[17px] italic leading-[2]`}
+            {...attributes}
+          >
+            {children}
+          </blockquote>
+          <div className={"absolute top-0"}>
+            <IconQuote
+              isActive={false}
+              css={{ width: "17px", height: "17px", color: "#cfcfcf" }}
+            />
+          </div>
+        </div>
+      );
     case IMAGE:
       return (
         <ImageElement element={element} attributes={attributes}>
@@ -82,7 +102,7 @@ export const Element = ({ attributes, children, element }: ElementProps) => {
       return <HrElement element={element} attributes={attributes} />;
     default:
       return (
-        <p style={style} className={`text-[20px]`} {...attributes}>
+        <p style={style} className={`text-[16px]`} {...attributes}>
           {children}
         </p>
       );
@@ -102,7 +122,6 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
     children = <u>{children}</u>;
   }
   if (leaf.code && leaf.text.length > 0) {
-    console.log("leaf.code", leaf.code);
     children = (
       <code className={`rounded bg-gray-100 p-0.5 text-[18px] font-thin`}>
         {children}
@@ -120,7 +139,7 @@ export const Leaf = ({ attributes, children, leaf }: LeafProps) => {
         </Tooltip.Trigger>
         <Tooltip.Portal>
           <Tooltip.Content
-            className="data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade select-none rounded-[4px] bg-[#222] px-[15px] py-[10px] text-[15px] leading-none text-white shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity]"
+            className="select-none rounded-[4px] bg-[#222] px-[15px] py-[10px] text-[15px] leading-none text-white shadow-[hsl(206_22%_7%_/_35%)_0px_10px_38px_-10px,_hsl(206_22%_7%_/_20%)_0px_10px_20px_-15px] will-change-[transform,opacity] data-[state=delayed-open]:data-[side=bottom]:animate-slideUpAndFade data-[state=delayed-open]:data-[side=left]:animate-slideRightAndFade data-[state=delayed-open]:data-[side=right]:animate-slideLeftAndFade data-[state=delayed-open]:data-[side=top]:animate-slideDownAndFade"
             sideOffset={5}
           >
             <a href={`${leaf.link}`} target="_blank">
