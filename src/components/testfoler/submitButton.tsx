@@ -2,6 +2,7 @@
 import React from "react";
 import { useReadOnly } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
+import { savePost } from "@/service/client/post";
 
 export default function SubmitButton() {
   const isReadOnly = useReadOnly();
@@ -10,10 +11,12 @@ export default function SubmitButton() {
   if (isReadOnly) return null;
   return (
     <button
-      onClick={() => {
+      onClick={async () => {
         console.log("title", title);
         console.log("category", category);
         console.log("contents", contents);
+        const res = await savePost({ title, category, contents });
+        console.log(res);
       }}
       className={
         "rounded-full border border-gray-300 px-8 py-3 text-[20px] font-bold"

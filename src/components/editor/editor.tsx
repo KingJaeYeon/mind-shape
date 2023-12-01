@@ -50,7 +50,6 @@ function Editor() {
           );
           if (isAstChange) {
             // Save the value to Local Storage.
-            console.log(isAstChange);
             setContents(value);
             const content = JSON.stringify(value);
             localStorage.setItem("content", content);

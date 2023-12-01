@@ -16,6 +16,7 @@ import {
   BLOCK_PARAGRAPH,
   BULLETED_LIST,
   HR,
+  IMAGE,
   LIST_ITEM,
   LIST_TYPES,
   MARK_LINK,
@@ -27,8 +28,13 @@ import {
 export const ListDeleter = {
   isElementListType(editor: any) {
     const [match]: any = SlateEditor.nodes(editor, {
-      match: (n: any) => n.type === NUMBER_LIST || n.type === BULLETED_LIST,
+      match: (n: any) => LIST_TYPES.includes(n.type),
     });
+    const [match1]: any = SlateEditor.nodes(editor, {
+      match: (n: any) => n.type === LIST_ITEM,
+    });
+    console.log("ListDeleter match::", match);
+    console.log("ListDeleter match1::", match1);
     let length;
     if (match) {
       length =
@@ -36,7 +42,6 @@ export const ListDeleter = {
     }
     return {
       isMatch: !!match,
-      match,
       length,
     };
   },
@@ -77,11 +82,13 @@ export const ListEditor = {
   toggleList(editor: any, format: string) {
     const isActive = ListEditor.isListActive(editor, format);
     const isList = LIST_TYPES.includes(format);
-    Transforms.unwrapNodes(editor, {
-      match: (n: any) => LIST_TYPES.includes(n.type),
-      split: true,
-    });
-
+    // Transforms.unwrapNodes(editor, {
+    //   match: (n: any) => LIST_TYPES.includes(n.type),
+    //   split: true,
+    // });
+    // console.log("toggleIsActive::", isActive);
+    // console.log("toggleIsList:", isList);
+    // console.log("format::", format);
     Transforms.setNodes(editor, {
       type: isActive ? BLOCK_PARAGRAPH : isList ? LIST_ITEM : format,
     } as any);
@@ -121,13 +128,17 @@ export const BlockEditor = {
         type: isActive ? BLOCK_PARAGRAPH : format,
       } as any;
     }
+    Transforms.unwrapNodes(editor, {
+      match: (n: any) => LIST_TYPES.includes(n.type),
+      split: true,
+    });
     Transforms.setNodes<SlateElement>(editor, newProperties);
   },
 };
 export const ImageEditor = {
   toggleImage(editor: any, format: ImageFormat) {
-    console.log(editor);
-    Transforms.setNodes<SlateElement>(editor, { size: format });
+    Transforms.insertNodes(editor, { size: format });
+    // Transforms.setNodes<SlateElement>(editor, { size: format });
   },
   removeImage(editor: any, path: Path) {
     Transforms.removeNodes(editor, { at: path });
