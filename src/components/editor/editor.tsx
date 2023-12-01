@@ -10,7 +10,6 @@ import {
 } from "@/components/editor/plugins/element-render";
 import { Toolbar } from "@/components/editor/toolbar";
 
-import { Descendant, Transforms } from "slate";
 import HoverToolbar from "@/components/editor/plugins/hover-toolbar";
 import {
   EventKeyPlugins,
@@ -18,47 +17,13 @@ import {
 } from "@/components/editor/plugins/event-key-plugins";
 import Category from "@/components/testfoler/category";
 
-const initialValue: Descendant[] = [
-  {
-    type: BLOCK_PARAGRAPH,
-    children: [
-      {
-        text: `title: 10 Expert Performance Tips Every Senior JS React Developer Should Know\n`,
-      },
-    ],
-  },
-  {
-    type: BLOCK_PARAGRAPH,
-    children: [
-      {
-        text:
-          `Hey, senior JS React developers! Are you looking to take your skills to the next level and optimize your React applications for top-notch performance?\n` +
-          `\n` +
-          `You’re in the right place!\n` +
-          `\n` +
-          `In this article, I’ll share with you 10 expert performance tips that will supercharge your React development.\n` +
-          `\n` +
-          `Get ready to optimize, streamline, and make your apps lightning-fast. Let’s dive in!`,
-      },
-    ],
-  },
-];
-
 function Editor() {
-  const { editor } = useEditorStore((state) => state);
-
-  const defaultContent = [
-    {
-      type: "paragraph",
-      children: [{ text: "" }],
-    },
-  ];
-  const [content, setContent] = useState(null);
+  const { editor, setContents, contents } = useEditorStore((state) => state);
 
   useEffect(() => {
     const storedContent = localStorage.getItem("content");
-    setContent(
-      storedContent
+    setContents(
+      !!storedContent
         ? JSON.parse(storedContent)
         : [
             {
@@ -69,7 +34,7 @@ function Editor() {
     );
   }, []);
 
-  if (content === null) {
+  if (contents === null) {
     return <div>Loading...</div>;
   }
 
@@ -78,13 +43,15 @@ function Editor() {
       <Category />
       <Slate
         editor={editor}
-        initialValue={content}
+        initialValue={contents}
         onChange={(value) => {
           const isAstChange = editor.operations.some(
             (op) => "set_selection" !== op.type,
           );
           if (isAstChange) {
             // Save the value to Local Storage.
+            console.log(isAstChange);
+            setContents(value);
             const content = JSON.stringify(value);
             localStorage.setItem("content", content);
           }
@@ -98,7 +65,7 @@ function Editor() {
           <Editable
             className={`min-h-[60vh] w-full max-w-[45rem] outline-none`}
             renderElement={renderElement}
-            readOnly={true}
+            readOnly={false}
             onKeyDownCapture={(event) => {
               EventKeyPlugins.ShiftEnter(event, editor);
               EventKeyPlugins.DeleteLister(event, editor);
