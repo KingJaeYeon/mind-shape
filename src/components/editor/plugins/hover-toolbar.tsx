@@ -6,6 +6,7 @@ import { Button } from "@/components/editor/button";
 import * as Toolbar from "@radix-ui/react-toolbar";
 import {
   BlockEditor,
+  HREditor,
   LinkEditor,
   MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
@@ -26,6 +27,7 @@ import { cn } from "@/utils/twmarge";
 import {
   IconBold,
   IconCode,
+  IconHr,
   IconItalic,
   IconLink,
   IconQuote,
@@ -101,6 +103,7 @@ function DefaultMenu() {
           value={"code"}
           ariaLabel={"Code"}
           onClick={() => {
+            BlockEditor.defaultBlock(editor);
             MarkEditor.removeMark(editor, MARK_BOLD);
             MarkEditor.toggleMark(editor, MARK_CODE);
           }}
@@ -153,19 +156,41 @@ function DefaultMenu() {
       <ToggleSeparator />
       <Button
         onclickHandler={() => {
+          MarkEditor.removeMark(editor, MARK_CODE);
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
         }}
-        className={`flex px-1.5 py-0.5`}
+        className={cn(
+          `flex px-1.5 py-0.5`,
+          BlockEditor.isBlockActive(editor, BLOCK_HEADING_ONE) &&
+            "text-[#a8e293]",
+        )}
       >
         H1
       </Button>
       <Button
         onclickHandler={() => {
+          MarkEditor.removeMark(editor, MARK_CODE);
           BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
         }}
-        className={`flex px-1.5 py-0.5`}
+        className={cn(
+          `flex px-1.5 py-0.5`,
+          BlockEditor.isBlockActive(editor, BLOCK_HEADING_TWO) &&
+            "text-[#a8e293]",
+        )}
       >
         H2
+      </Button>
+      <Button
+        onclickHandler={() => {
+          HREditor.toggleHR(editor);
+        }}
+        className={cn(
+          `flex px-1.5 py-0.5`,
+          BlockEditor.isBlockActive(editor, BLOCK_HEADING_TWO) &&
+            "text-[#a8e293]",
+        )}
+      >
+        HR
       </Button>
     </Toolbar.Root>
   );

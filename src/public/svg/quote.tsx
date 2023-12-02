@@ -4,7 +4,7 @@ export default function IconQuote({
   isActive = false,
   css = {},
 }: {
-  isActive: boolean;
+  isActive?: boolean;
   css?: any;
 }) {
   const color = isActive ? "#a8e293" : "white";

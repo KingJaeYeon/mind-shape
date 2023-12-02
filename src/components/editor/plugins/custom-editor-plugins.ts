@@ -134,6 +134,9 @@ export const BlockEditor = {
     });
     Transforms.setNodes<SlateElement>(editor, newProperties);
   },
+  defaultBlock(editor: any) {
+    Transforms.setNodes<SlateElement>(editor, { type: BLOCK_PARAGRAPH });
+  },
 };
 export const ImageEditor = {
   toggleImage(editor: any, format: ImageFormat) {
