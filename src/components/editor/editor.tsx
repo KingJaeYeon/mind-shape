@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect } from "react";
 import { Title } from "@/components/editor/title";
 import { Editable, Slate } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
-import { BLOCK_PARAGRAPH } from "@/constant/slate";
 import {
   renderElement,
   renderLeaf,
@@ -16,15 +15,44 @@ import {
   keydownEventPlugin,
 } from "@/components/editor/plugins/event-key-plugins";
 import Category from "@/components/testfoler/category";
+import { getPost } from "@/service/client/post";
+import { usePathname, useSearchParams } from "next/navigation";
 
-function Editor() {
-  const { editor, setContents, contents } = useEditorStore((state) => state);
-
+function Editor({ readOnly }: { readOnly?: boolean }) {
+  const pathname = usePathname();
+  const {
+    editor,
+    setContents,
+    contents,
+    setTitle,
+    setCategory,
+    setIsOnlyRead,
+    reset,
+    isOnlyRead,
+  } = useEditorStore((state) => state);
+  const id = useSearchParams().get("id");
   useEffect(() => {
-    const storedContent = localStorage.getItem("content");
-    setContents(
-      !!storedContent
-        ? JSON.parse(storedContent)
+    setData();
+  }, []);
+
+  async function setData() {
+    let data;
+    if (pathname.includes("detail") && id) {
+      const res = await getPost(id);
+      setTitle(res.res.title);
+      setCategory(res.res.category);
+      setIsOnlyRead(res.readonly);
+      localStorage.removeItem("content");
+      localStorage.removeItem("title");
+      localStorage.removeItem("category");
+      data = res.res.content;
+    } else {
+      data = localStorage.getItem("content");
+      console.log(data);
+    }
+    await setContents(
+      !!data
+        ? JSON.parse(data)
         : [
             {
               type: "paragraph",
@@ -32,7 +60,7 @@ function Editor() {
             },
           ],
     );
-  }, []);
+  }
 
   if (contents === null) {
     return <div>Loading...</div>;
@@ -64,7 +92,7 @@ function Editor() {
           <Editable
             className={`min-h-[60vh] w-full max-w-[45rem] outline-none`}
             renderElement={renderElement}
-            readOnly={false}
+            readOnly={isOnlyRead}
             onKeyDownCapture={(event) => {
               EventKeyPlugins.ShiftEnter(event, editor);
               EventKeyPlugins.DeleteLister(event, editor);

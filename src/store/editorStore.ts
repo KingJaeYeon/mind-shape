@@ -11,6 +11,8 @@ type State = {
   isLink: boolean;
   category: string;
   contents: any[] | null;
+  isLoading: boolean;
+  isOnlyRead: boolean;
 };
 
 type Action = {
@@ -18,6 +20,8 @@ type Action = {
   setTitle: (value: string) => void;
   setCategory: (value: string) => void;
   setContents: (value: any) => void;
+  setIsLoading: (value: boolean) => void;
+  setIsOnlyRead: (value: boolean) => void;
   reset: () => void;
 };
 
@@ -32,6 +36,8 @@ const initialState: State = {
     },
   ],
   isLink: false,
+  isLoading: false,
+  isOnlyRead: false,
 };
 
 export const useEditorStore = create<State & Action>()((set) => ({
@@ -40,9 +46,13 @@ export const useEditorStore = create<State & Action>()((set) => ({
   category: "금전/계약",
   isLink: false,
   contents: null,
+  isLoading: false,
+  isOnlyRead: false,
   setLink: (isLink) => set(() => ({ isLink: isLink })),
   setTitle: (value) => set(() => ({ title: value })),
   setCategory: (value) => set(() => ({ category: value })),
   setContents: (value) => set(() => ({ contents: value })),
+  setIsLoading: (value) => set(() => ({ isLoading: value })),
+  setIsOnlyRead: (value) => set(() => ({ isOnlyRead: value })),
   reset: () => set(initialState),
 }));
