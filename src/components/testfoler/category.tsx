@@ -17,7 +17,7 @@ const categories = [
 ];
 export default function Category() {
   const { category, setCategory } = useEditorStore((state) => state);
-  const isReadOnly = useReadOnly();
+  const { isOnlyRead } = useEditorStore((state) => state);
   useEffect(() => {
     const storedContent = localStorage.getItem("category");
     setCategory(!!storedContent ? storedContent : "");
@@ -29,7 +29,7 @@ export default function Category() {
       <select
         value={category}
         onChange={(e) => {
-          if (!isReadOnly) return;
+          if (isOnlyRead) return;
           setCategory(e.target.value);
           localStorage.setItem("category", e.target.value);
         }}

@@ -26,11 +26,13 @@ import {
 import ImageButton from "@/components/editor/image-button";
 import { useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
+import { useEditorStore } from "@/store/editorStore";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
   const editor = useSlateStatic();
+  const { isOnlyRead } = useEditorStore((state) => state);
+  if (isOnlyRead) return null;
   if (!show) return null;
-
   return (
     <div className={`flex flex-wrap gap-[10px]`}>
       <div className={"flex flex-col"}>

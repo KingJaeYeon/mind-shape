@@ -30,3 +30,20 @@ export function savePost({
     },
   });
 }
+
+export function getPostList() {
+  return request({
+    method: "get",
+    url: "/plate/list",
+  });
+}
+
+export function getPost(id: string) {
+  return request({
+    method: "get",
+    url: "/plate/post",
+    params: {
+      id: id,
+    },
+  });
+}

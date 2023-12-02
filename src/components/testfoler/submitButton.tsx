@@ -5,18 +5,21 @@ import { useEditorStore } from "@/store/editorStore";
 import { savePost } from "@/service/client/post";
 
 export default function SubmitButton() {
-  const isReadOnly = useReadOnly();
+  const { isLoading, setIsLoading } = useEditorStore((state) => state);
   const { category, title, contents } = useEditorStore((state) => state);
-
-  if (isReadOnly) return null;
+  const { isOnlyRead } = useEditorStore((state) => state);
+  if (isOnlyRead) return null;
   return (
     <button
+      disabled={isLoading}
       onClick={async () => {
-        console.log("title", title);
-        console.log("category", category);
-        console.log("contents", contents);
+        setIsLoading(true);
         const res = await savePost({ title, category, contents });
-        console.log(res);
+        setIsLoading(false);
+        if (res) {
+          alert("저장되었습니다.");
+          window.location.href = "/list";
+        }
       }}
       className={
         "rounded-full border border-gray-300 px-8 py-3 text-[20px] font-bold"
