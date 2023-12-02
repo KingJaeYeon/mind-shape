@@ -3,7 +3,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import TooltipProvider from "@/provider/TooltipProvider";
 import React from "react";
-import Link from "next/link";
 import Header from "@/components/testfoler/header";
 
 const inter = Inter({ subsets: ["latin"] });

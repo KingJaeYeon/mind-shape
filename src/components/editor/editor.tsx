@@ -48,7 +48,6 @@ function Editor({ readOnly }: { readOnly?: boolean }) {
       data = res.res.content;
     } else {
       data = localStorage.getItem("content");
-      console.log(data);
     }
     await setContents(
       !!data

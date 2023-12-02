@@ -27,6 +27,7 @@ import ImageButton from "@/components/editor/image-button";
 import { useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
 import { useEditorStore } from "@/store/editorStore";
+import { IconQuote } from "@/public/svg";
 
 export const Toolbar = ({ show }: { show: boolean }) => {
   const editor = useSlateStatic();
@@ -58,9 +59,11 @@ export const Toolbar = ({ show }: { show: boolean }) => {
             onclickHandler={() => {
               BlockEditor.toggleBlock(editor, BLOCK_QUOTE);
             }}
-            className={cn(`flex border border-gray-300 px-1.5 py-0.5 italic`)}
+            className={cn(
+              `flex items-center border border-gray-300 px-1.5 py-0.5 italic`,
+            )}
           >
-            {'"'}
+            <IconQuote css={{ width: 15, height: 15 }} />
           </Button>
           <Button
             onclickHandler={() => {
