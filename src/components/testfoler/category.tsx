@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { useEditorStore } from "@/store/editorStore";
 import { useReadOnly } from "slate-react";
 import SubmitButton from "@/components/testfoler/submitButton";
+import { Transforms } from "slate";
+import editor from "@/components/editor/editor";
 const categories = [
   "금전/계약",
   "기업 법무",
@@ -16,7 +18,9 @@ const categories = [
   "기타",
 ];
 export default function Category() {
-  const { category, setCategory } = useEditorStore((state) => state);
+  const { category, setCategory, reset, editor } = useEditorStore(
+    (state) => state,
+  );
   const { isOnlyRead } = useEditorStore((state) => state);
   useEffect(() => {
     const storedContent = localStorage.getItem("category");
@@ -26,6 +30,17 @@ export default function Category() {
   return (
     <div className={"mb-[20px] flex w-full max-w-[45rem] justify-end"}>
       <SubmitButton />
+      <button
+        onClick={() => {
+          localStorage.removeItem("content");
+          Transforms.insertNodes(editor, {
+            type: "paragraph",
+            children: [{ text: "" }],
+          });
+        }}
+      >
+        reset
+      </button>
       <select
         value={category}
         onChange={(e) => {

@@ -10,14 +10,14 @@ export const Title = () => {
   const editor = useSlateStatic();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
   const handleResizeHeight = (e: any) => {
-    if (textareaRef.current) {
+    console.log(textareaRef?.current);
+    if (textareaRef?.current) {
       textareaRef.current.style.height = `auto`;
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + `px`;
     }
     setTitle(e.target.value);
     localStorage.setItem("title", e.target.value);
-    console.log(title);
   };
   const handleKeyDown = (event: any) => {
     if (event.key === `Enter`) {
@@ -29,10 +29,14 @@ export const Title = () => {
       ReactEditor.focus(editor);
     }
   };
-
   useEffect(() => {
     const storedContent = localStorage.getItem("title");
     setTitle(!!storedContent ? storedContent : "");
+    if (textareaRef?.current) {
+      textareaRef.current.style.height = `auto`;
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + `px`;
+    }
   }, []);
   return (
     <div className={`w-full`}>

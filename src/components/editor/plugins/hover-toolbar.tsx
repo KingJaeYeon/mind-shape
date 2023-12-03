@@ -184,11 +184,7 @@ function DefaultMenu() {
         onclickHandler={() => {
           HREditor.toggleHR(editor);
         }}
-        className={cn(
-          `flex px-1.5 py-0.5`,
-          BlockEditor.isBlockActive(editor, BLOCK_HEADING_TWO) &&
-            "text-[#a8e293]",
-        )}
+        className={cn(`flex px-1.5 py-0.5`)}
       >
         HR
       </Button>

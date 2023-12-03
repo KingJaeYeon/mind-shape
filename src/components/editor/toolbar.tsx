@@ -113,22 +113,22 @@ export const Toolbar = ({ show }: { show: boolean }) => {
           >
             Right
           </Button>
-          <Button
-            onclickHandler={() => {
-              ListEditor.toggleList(editor, NUMBER_LIST);
-            }}
-            className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
-          >
-            Number
-          </Button>
-          <Button
-            onclickHandler={() => {
-              ListEditor.toggleList(editor, BULLETED_LIST);
-            }}
-            className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
-          >
-            Bullet
-          </Button>
+          {/*<Button*/}
+          {/*  onclickHandler={() => {*/}
+          {/*    ListEditor.toggleList(editor, NUMBER_LIST);*/}
+          {/*  }}*/}
+          {/*  className={`flex border border-gray-300 px-1.5 py-0.5 italic`}*/}
+          {/*>*/}
+          {/*  Number*/}
+          {/*</Button>*/}
+          {/*<Button*/}
+          {/*  onclickHandler={() => {*/}
+          {/*    ListEditor.toggleList(editor, BULLETED_LIST);*/}
+          {/*  }}*/}
+          {/*  className={`flex border border-gray-300 px-1.5 py-0.5 italic`}*/}
+          {/*>*/}
+          {/*  Bullet*/}
+          {/*</Button>*/}
           <ImageButton />
           <Button
             onclickHandler={() => {

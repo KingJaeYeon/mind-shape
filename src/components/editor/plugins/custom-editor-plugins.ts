@@ -33,8 +33,6 @@ export const ListDeleter = {
     const [match1]: any = SlateEditor.nodes(editor, {
       match: (n: any) => n.type === LIST_ITEM,
     });
-    console.log("ListDeleter match::", match);
-    console.log("ListDeleter match1::", match1);
     let length;
     if (match) {
       length =
@@ -82,13 +80,6 @@ export const ListEditor = {
   toggleList(editor: any, format: string) {
     const isActive = ListEditor.isListActive(editor, format);
     const isList = LIST_TYPES.includes(format);
-    // Transforms.unwrapNodes(editor, {
-    //   match: (n: any) => LIST_TYPES.includes(n.type),
-    //   split: true,
-    // });
-    // console.log("toggleIsActive::", isActive);
-    // console.log("toggleIsList:", isList);
-    // console.log("format::", format);
     Transforms.setNodes(editor, {
       type: isActive ? BLOCK_PARAGRAPH : isList ? LIST_ITEM : format,
     } as any);
@@ -140,8 +131,9 @@ export const BlockEditor = {
 };
 export const ImageEditor = {
   toggleImage(editor: any, format: ImageFormat) {
-    Transforms.insertNodes(editor, { size: format });
-    // Transforms.setNodes<SlateElement>(editor, { size: format });
+    console.log(editor);
+    // Transforms.insertNodes(editor, { size: format });
+    Transforms.setNodes<SlateElement>(editor, { size: format });
   },
   removeImage(editor: any, path: Path) {
     Transforms.removeNodes(editor, { at: path });
