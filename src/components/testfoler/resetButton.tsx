@@ -3,28 +3,27 @@ import React from "react";
 import { useReadOnly } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
 import { savePost } from "@/service/client/post";
+import { Transforms } from "slate";
 
-export default function SubmitButton() {
-  const { isLoading, setIsLoading, category, title, contents, isOnlyRead } =
-    useEditorStore((state) => state);
+export default function ResetButton() {
+  const { isLoading, isOnlyRead, editor } = useEditorStore((state) => state);
   if (isOnlyRead) return null;
   return (
     <button
       disabled={isLoading}
       onClick={async () => {
-        setIsLoading(true);
-        const res = await savePost({ title, category, contents });
-        setIsLoading(false);
-        if (res) {
-          alert("저장되었습니다.");
-          window.location.href = "/list";
-        }
+        localStorage.removeItem("content");
+        Transforms.insertNodes(editor, {
+          type: "paragraph",
+          children: [{ text: "" }],
+        });
+        window.location.href = "/list";
       }}
       className={
         "rounded-full border border-gray-300 px-8 py-3 text-[20px] font-bold"
       }
     >
-      저장
+      리셋
     </button>
   );
 }

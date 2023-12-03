@@ -6,6 +6,7 @@ import SubmitButton from "@/components/testfoler/submitButton";
 import { Transforms } from "slate";
 import editor from "@/components/editor/editor";
 import { Button } from "@/components/editor/button";
+import ResetButton from "@/components/testfoler/resetButton";
 const categories = [
   "금전/계약",
   "기업 법무",
@@ -31,21 +32,7 @@ export default function Category() {
   return (
     <div className={"mb-[20px] flex w-full max-w-[45rem] justify-end"}>
       <SubmitButton />
-      <Button
-        className={
-          "rounded-full border border-gray-300 px-8 py-3 text-[20px] font-bold"
-        }
-        onclickHandler={() => {
-          localStorage.removeItem("content");
-          Transforms.insertNodes(editor, {
-            type: "paragraph",
-            children: [{ text: "" }],
-          });
-          window.location.href = "/list";
-        }}
-      >
-        reset
-      </Button>
+      <ResetButton />
       <select
         value={category}
         onChange={(e) => {
