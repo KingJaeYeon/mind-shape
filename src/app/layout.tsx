@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 
 export default async function RootLayout(props: {
   children: React.ReactNode;
-  list: React.ReactNode;
 }) {
   return (
     <html lang="en">

@@ -1,13 +1,12 @@
 {
   "extends": ["next/core-web-vitals"],
   "rules": {
+    "react-hooks/exhaustive-deps": "off",
     "indent": [
       "error",
       2,
       {
-        "SwitchCase": 1,
-        "ArrayExpression": 2,
-        "ObjectExpression": 1
+        "SwitchCase": 1
       }
     ]
   }
