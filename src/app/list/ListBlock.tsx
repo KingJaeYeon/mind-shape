@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { getPostList } from "@/service/client/post";
+import Image from "next/image";
 
 type Post = {
   id: number;
@@ -37,7 +38,7 @@ export function ListBlock() {
                   "flex w-[100px] flex-col items-center overflow-hidden "
                 }
               >
-                <img
+                <Image
                   style={{ height: "100%" }}
                   src={post.firstImg ? post.firstImg : "./svg/next.svg"}
                   width={100}

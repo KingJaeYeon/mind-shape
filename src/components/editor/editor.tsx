@@ -17,6 +17,12 @@ import {
 import Category from "@/components/testfoler/category";
 import { getPost } from "@/service/client/post";
 import { usePathname, useSearchParams } from "next/navigation";
+const initialValue = [
+  {
+    type: "paragraph",
+    children: [{ text: "" }],
+  },
+];
 
 function Editor({ readOnly }: { readOnly?: boolean }) {
   const pathname = usePathname();
@@ -31,6 +37,7 @@ function Editor({ readOnly }: { readOnly?: boolean }) {
     isOnlyRead,
   } = useEditorStore((state) => state);
   const id = useSearchParams().get("id");
+
   useEffect(() => {
     setData();
   }, []);
@@ -49,16 +56,7 @@ function Editor({ readOnly }: { readOnly?: boolean }) {
     } else {
       data = localStorage.getItem("content");
     }
-    await setContents(
-      !!data
-        ? JSON.parse(data)
-        : [
-            {
-              type: "paragraph",
-              children: [{ text: "" }],
-            },
-          ],
-    );
+    await setContents(!!data ? JSON.parse(data) : initialValue);
   }
 
   if (contents === null) {
