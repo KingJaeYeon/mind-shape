@@ -27,52 +27,27 @@ type LeafProps = {
   leaf: any;
   code?: any;
 };
+
 export const Element = ({ attributes, children, element }: ElementProps) => {
   const style = { textAlign: element.align };
   switch (element.type) {
     case BLOCK_HEADING_ONE:
       return (
-        <h1 style={style} className={`text-[32px]`} {...attributes}>
-          <strong>{children}</strong>
+        <h1 style={style} className={`text-[32px] font-bold`} {...attributes}>
+          {children}
         </h1>
       );
     case BLOCK_HEADING_TWO:
       return (
-        <h2 style={style} className={`text-[28px]`} {...attributes}>
-          <strong>{children}</strong>
+        <h2 style={style} className={`text-[28px] font-bold`} {...attributes}>
+          {children}
         </h2>
       );
     case BLOCK_HEADING_THREE:
       return (
-        <h3 style={style} className={`text-[24px]`} {...attributes}>
-          <strong>{children}</strong>
+        <h3 style={style} className={`text-[24px] font-bold`} {...attributes}>
+          {children}
         </h3>
-      );
-    case LIST_ITEM:
-      return (
-        <li style={style} className={`mb-2`} {...attributes}>
-          {children}
-        </li>
-      );
-    case BULLETED_LIST:
-      return (
-        <ul
-          style={style}
-          className={`mb-2 list-inside list-disc text-[20px]`}
-          {...attributes}
-        >
-          {children}
-        </ul>
-      );
-    case NUMBER_LIST:
-      return (
-        <ol
-          style={style}
-          className={`list-inside list-decimal text-[20px]`}
-          {...attributes}
-        >
-          {children}
-        </ol>
       );
     case BLOCK_QUOTE:
       return (
@@ -92,6 +67,32 @@ export const Element = ({ attributes, children, element }: ElementProps) => {
           </div>
         </div>
       );
+    // case LIST_ITEM:
+    //   return (
+    //     <li style={style} className={`mb-2`} {...attributes}>
+    //       {children}
+    //     </li>
+    //   );
+    // case BULLETED_LIST:
+    //   return (
+    //     <ul
+    //       style={style}
+    //       className={`mb-2 list-inside list-disc text-[20px]`}
+    //       {...attributes}
+    //     >
+    //       {children}
+    //     </ul>
+    //   );
+    // case NUMBER_LIST:
+    //   return (
+    //     <ol
+    //       style={style}
+    //       className={`list-inside list-decimal text-[20px]`}
+    //       {...attributes}
+    //     >
+    //       {children}
+    //     </ol>
+    //   );
     case IMAGE:
       return (
         <ImageElement element={element} attributes={attributes}>
