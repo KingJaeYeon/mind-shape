@@ -18,6 +18,8 @@ export default function SubmitButton() {
         if (res) {
           alert("저장되었습니다.");
           window.location.href = "/list";
+        } else {
+          alert("저장에 실패하였습니다.");
         }
       }}
       className={
