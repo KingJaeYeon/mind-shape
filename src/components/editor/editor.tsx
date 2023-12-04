@@ -24,7 +24,7 @@ const initialValue = [
   },
 ];
 
-function Editor({ readOnly }: { readOnly?: boolean }) {
+function Editor({ readOnly, content }: { readOnly?: boolean; content?: any }) {
   const pathname = usePathname();
   const {
     editor,
