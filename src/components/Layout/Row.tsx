@@ -6,9 +6,9 @@ type Props = {
   className?: string;
   ref?: React.Ref<HTMLDivElement>;
 };
-function Row({ children, className, ref }: Props) {
+function Row({ className, ref, children, ...props }: Props) {
   return (
-    <div ref={ref} className={cn("flex", className)}>
+    <div ref={ref} className={cn("flex", className)} {...props}>
       {children}
     </div>
   );
