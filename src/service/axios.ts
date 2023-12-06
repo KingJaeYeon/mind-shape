@@ -1,3 +1,4 @@
+"use client";
 import axios from "axios";
 
 //axios 인스턴스를 생성
@@ -32,6 +33,10 @@ const onSuccess = function (response: any) {
 
 const onError = function (error: any) {
   console.log("Request Failed:", error);
+  const message = error.response.data.message;
+  if (!!message) {
+    throw new Error(message);
+  }
   throw new Error(error);
 };
 

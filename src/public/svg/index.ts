@@ -5,6 +5,8 @@ import IconCode from "./code";
 import IconUnderLined from "./underlined";
 import IconQuote from "./quote";
 import IconHr from "./hr";
+import IconChevronRight from "./chevron-right";
+import IconChevronLeft from "./chevron-left";
 
 export {
   IconLink,
@@ -14,4 +16,6 @@ export {
   IconUnderLined,
   IconQuote,
   IconHr,
+  IconChevronRight,
+  IconChevronLeft,
 };

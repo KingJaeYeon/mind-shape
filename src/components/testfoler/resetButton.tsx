@@ -1,8 +1,6 @@
 "use client";
 import React from "react";
-import { useReadOnly } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
-import { savePost } from "@/service/client/post";
 import { Transforms } from "slate";
 
 export default function ResetButton() {

@@ -1,0 +1,29 @@
+
+
+#next {
+    color:#3D474F;
+    background-color: transparent;
+}
+
+#next:hover {
+    background-color: rgb(220, 191, 255);
+    color:white;
+}
+#next:disabled{
+    color: hsla(240, 12%, 89%, 1);
+    background-color: transparent;
+}
+
+#prev {
+    color:#3D474F;
+    background-color: transparent;
+}
+
+#prev:hover {
+    background-color: rgb(220, 191, 255);
+    color:white;
+}
+#prev:disabled{
+    color: hsla(240, 12%, 89%, 1);
+    background-color: transparent;
+}
