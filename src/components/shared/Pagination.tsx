@@ -49,46 +49,70 @@ export default function Pagination({ count }: { count: number }) {
 
   return (
     <div className={"flex gap-[10px]"}>
-      <button
-        onClick={() => prevPage()}
+      <Button
         id={"prev"}
         disabled={currentMaxPage === PAGINATION}
-        className={
-          "flex h-[2.25rem] w-[2.25rem] items-center justify-center border border-grayscale-light disabled:cursor-not-allowed "
-        }
+        onClick={() => prevPage()}
+        className={"disabled:cursor-not-allowed"}
       >
         <IconChevronLeft />
-      </button>
+      </Button>
       {pageList &&
         pageList?.map((page) => {
           if (page !== 0)
             return (
-              <button
-                className={cn(
-                  "h-[2.25rem] w-[2.25rem] border border-grayscale-light bg-transparent text-grayscale-dark",
-                  currentPage === page && "bg-grayscale text-grayscale-white",
-                  currentPage !== page &&
-                    "hover:bg-primary hover:text-grayscale-white",
-                )}
-                key={page}
-                onClick={() =>
-                  router.push(pathname + "?" + createQuery(String(page)))
+              <Button
+                id={`b${page}`}
+                key={`b${page}`}
+                onClick={() => {
+                  router.push(pathname + "?" + createQuery(String(page)));
+                }}
+                disabled={currentPage === page}
+                className={
+                  "text-grayscale-dark hover:bg-primary hover:text-grayscale-white disabled:cursor-not-allowed disabled:bg-grayscale disabled:text-grayscale-white"
                 }
               >
                 {page}
-              </button>
+              </Button>
             );
         })}
-      <button
+      <Button
         id={"next"}
-        onClick={() => nextPage()}
         disabled={currentMaxPage >= pageCount}
-        className={
-          "flex h-[2.25rem] w-[2.25rem] items-center justify-center border border-grayscale-light disabled:cursor-not-allowed"
-        }
+        onClick={() => nextPage()}
+        className={"disabled:cursor-not-allowed"}
       >
         <IconChevronRight />
-      </button>
+      </Button>
     </div>
   );
 }
+
+type ButtonProps = {
+  onClick: () => void;
+  id: string;
+  disabled: boolean;
+  className?: string;
+  children?: React.ReactNode;
+};
+const Button = ({
+  onClick,
+  id,
+  disabled,
+  className,
+  children,
+}: ButtonProps) => {
+  return (
+    <button
+      id={id}
+      onClick={onClick}
+      disabled={disabled}
+      className={cn(
+        "flex h-[2.25rem] w-[2.25rem] items-center justify-center border border-grayscale-light bg-transparent",
+        className,
+      )}
+    >
+      {children}
+    </button>
+  );
+};
