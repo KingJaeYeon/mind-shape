@@ -8,6 +8,26 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      colors: {
+        primary: {
+          DEFAULT: "var(--primary)",
+          weak: "var(--primary-weak)",
+          light: "var(--primary-light)",
+          deep: "var(--primary-deep)",
+        },
+        grayscale: {
+          DEFAULT: "var(--grayscale-gray)",
+          white: "var(--grayscale-white)",
+          pale: "var(--grayscale-pale-gray)",
+          weak: "var(--grayscale-weak-gray)",
+          light: "var(--grayscale-lightgray)",
+          neutral: "var(--grayscale-neutral-gray)",
+          deep: "var(--grayscale-deep-gray)",
+          dark: "var(--grayscale-darkgray)",
+          black: "var(--grayscale-black)",
+        },
+        transparent: "transparent",
+      },
       backgroundImage: {
         "quote-element": "url('/svg/quote.svg')",
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

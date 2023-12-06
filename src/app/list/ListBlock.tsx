@@ -1,8 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { getPostList } from "@/service/client/post";
+import React, { useCallback } from "react";
+
 import Image from "next/image";
+import Table from "@/components/shared/Table";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePosts } from "@/hook/usePosts";
+import { cn } from "@/utils/twmarge";
+import Pagination from "@/components/shared/Pagination";
 
 type Post = {
   id: number;
@@ -13,49 +18,144 @@ type Post = {
 };
 
 export function ListBlock() {
-  const [postList, setPostList] = useState<any>([]);
-  useEffect(() => {
-    getData();
-  }, []);
-
-  async function getData() {
-    const res = await getPostList();
-    setPostList(res);
-  }
+  const { isLoading, error, posts: postList, count } = usePosts();
 
   return (
-    <div className={"flex w-full flex-col items-center gap-[20px]"}>
-      {postList.length > 0 &&
-        postList?.map((post: Post) => {
-          return (
-            <div
-              className={"flex w-[850px] cursor-pointer gap-[30px]"}
-              key={post.id}
-              onClick={() => (window.location.href = `/detail?id=${post.id}`)}
-            >
-              <div
-                className={
-                  "flex w-[100px] flex-col items-center overflow-hidden "
-                }
-              >
-                <Image
-                  style={{ height: "100%" }}
-                  src={post.firstImg ? post.firstImg : "./svg/next.svg"}
-                  width={100}
-                  height={100}
-                  alt={"image"}
-                />
-                <h2>{post.category}</h2>
-              </div>
-              <div className={"flex max-w-[45rem] flex-col"}>
-                <h2 className={"text-[30px] font-bold"}>{post.title}</h2>
-                <p className={"text-[20px]"}>
-                  {post.description.slice(0, 110)}
-                </p>
-              </div>
-            </div>
-          );
-        })}
+    <div className={"flex flex-col items-center"}>
+      <Table>
+        <Table.Header>
+          <div className={"flex w-full justify-between"}>
+            <Select />
+            <SortBy />
+          </div>
+        </Table.Header>
+
+        <Table.Body
+          isLoading={isLoading}
+          data={postList}
+          render={(post: any) => <PostRow post={post} key={post.id} />}
+        />
+
+        <Table.Footer>
+          <Pagination count={count} />
+        </Table.Footer>
+      </Table>
     </div>
+  );
+}
+function PostRow({ post }: { post: Post }) {
+  return (
+    <Table.Row>
+      <div
+        className={"flex w-[850px] cursor-pointer gap-[30px]"}
+        onClick={() => (window.location.href = `/detail?id=${post.id}`)}
+      >
+        <div
+          className={"flex w-[100px] flex-col items-center overflow-hidden "}
+        >
+          <Image
+            style={{ height: "100%" }}
+            src={post.firstImg ? post?.firstImg : "./svg/next.svg"}
+            width={100}
+            height={100}
+            alt={"image"}
+          />
+          <h2>{post.category}</h2>
+        </div>
+        <div className={"flex max-w-[45rem] flex-col"}>
+          <h2 className={"text-[30px] font-bold"}>{post.title}</h2>
+          <p className={"text-[20px]"}>{post.description.slice(0, 110)}</p>
+        </div>
+      </div>
+    </Table.Row>
+  );
+}
+
+function SortBy() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const sortBy = searchParams.get("sortBy") || "desc";
+
+  const createQuery = useCallback(
+    (sortBy: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("sortBy", sortBy);
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  const options = [
+    { label: "최신순", value: "desc" },
+    { label: "오래된순", value: "asc" },
+  ];
+
+  return (
+    <div className={"flex gap-[30px]"}>
+      {options.map((option) => (
+        <button
+          className={cn("", sortBy === option.value && "text-blue-500")}
+          key={option.label}
+          onClick={() =>
+            router.push(pathname + "?" + createQuery(option.value))
+          }
+        >
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+const categories = [
+  "ALL",
+  "금전/계약",
+  "기업 법무",
+  "형사 절차",
+  "폭행 협박",
+  "명예훼손",
+  "가족/이혼",
+  "세금",
+  "학교폭력",
+  "성/통매음",
+  "기타",
+];
+
+function Select() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const category = searchParams.get("category") || "ALL";
+
+  const createQuery = useCallback(
+    (category: string) => {
+      const params = new URLSearchParams(searchParams);
+      params.set("category", category);
+      params.set("page", "1");
+      return params.toString();
+    },
+    [searchParams],
+  );
+
+  return (
+    <select
+      value={category}
+      onChange={(e) => {
+        router.push(pathname + "?" + createQuery(e.target.value));
+      }}
+      id="cars"
+      className={
+        "h-[40px] w-auto rounded-[4px] border border-gray-300 px-[10px]"
+      }
+    >
+      {categories.map((category) => (
+        <option value={category} key={category}>
+          {category}
+        </option>
+      ))}
+    </select>
   );
 }

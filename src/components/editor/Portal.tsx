@@ -2,7 +2,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import ReactDOM from "react-dom";
 
-export const Portal = ({ children }: { children?: ReactNode }) => {
+export const Portal = ({ children }: { children: any }) => {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {

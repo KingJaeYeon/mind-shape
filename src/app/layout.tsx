@@ -5,6 +5,7 @@ import TooltipProvider from "@/provider/TooltipProvider";
 import React from "react";
 import Header from "@/components/testfoler/header";
 import ReactQueryProvider from "@/provider/ReactQueryProvider";
+import { Toaster } from "react-hot-toast";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,6 +24,18 @@ export default async function RootLayout(props: { children: React.ReactNode }) {
             {props.children}
           </TooltipProvider>
         </ReactQueryProvider>
+        <Toaster
+          position="top-center"
+          gutter={8}
+          toastOptions={{
+            success: {
+              duration: 3000,
+            },
+            error: {
+              duration: 5000,
+            },
+          }}
+        />
       </body>
     </html>
   );

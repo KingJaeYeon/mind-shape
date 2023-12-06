@@ -26,7 +26,7 @@ export default function Category() {
   const { isOnlyRead } = useEditorStore((state) => state);
   useEffect(() => {
     const storedContent = localStorage.getItem("category");
-    setCategory(!!storedContent ? storedContent : "");
+    setCategory(!!storedContent ? storedContent : "금전/계약");
   }, []);
 
   return (

@@ -15,8 +15,8 @@ import {
   keydownEventPlugin,
 } from "@/components/editor/plugins/event-key-plugins";
 import Category from "@/components/testfoler/category";
-import { getPost } from "@/service/client/post";
 import { usePathname, useSearchParams } from "next/navigation";
+import { getPost } from "@/service/post";
 const initialValue = [
   {
     type: "paragraph",
@@ -45,7 +45,7 @@ function Editor({ readOnly, content }: { readOnly?: boolean; content?: any }) {
   async function setData() {
     let data;
     if (pathname.includes("detail") && id) {
-      const res = await getPost(id);
+      const res = await getPost({ id });
       setTitle(res.res.title);
       setCategory(res.res.category);
       setIsOnlyRead(res.readonly);
