@@ -5,6 +5,7 @@ import React, { useCallback } from "react";
 import { IconChevronLeft, IconChevronRight } from "@/public/svg";
 import { cn } from "@/utils/twmarge";
 import "@/style/pagination.css";
+import Contents from "@/components/Layout/Contents";
 
 export default function Pagination({ count }: { count: number }) {
   const searchParams = useSearchParams();
@@ -48,7 +49,7 @@ export default function Pagination({ count }: { count: number }) {
     .reverse();
 
   return (
-    <div className={"flex gap-[10px]"}>
+    <Contents className={"flex gap-[10px]"}>
       <Button
         id={"prev"}
         disabled={currentMaxPage === PAGINATION}
@@ -84,7 +85,7 @@ export default function Pagination({ count }: { count: number }) {
       >
         <IconChevronRight />
       </Button>
-    </div>
+    </Contents>
   );
 }
 

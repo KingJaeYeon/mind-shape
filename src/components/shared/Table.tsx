@@ -2,6 +2,8 @@
 
 import { createContext, useContext } from "react";
 import React from "react";
+import Row from "@/components/Layout/Row";
+import Col from "@/components/Layout/Col";
 
 const TableContext = createContext<any>(undefined);
 
@@ -37,14 +39,14 @@ export function Body({
 }) {
   if (isLoading) return <div>Loading...</div>;
   if (!data || !data.length)
-    return <div className={"flex w-[850px]"}>There is no data</div>;
+    return <Row className={"w-[850px]"}>There is no data</Row>;
 
-  return <div className={"flex w-[850px] flex-col"}>{data?.map(render)}</div>;
+  return <Col className={"w-[850px]"}>{data?.map(render)}</Col>;
 }
 
-export function Row({ children }: { children: React.ReactNode }) {
+export function TRow({ children }: { children: React.ReactNode }) {
   const { columns } = useContext(TableContext);
-  return <div className={"flex w-[850px]"}>{children}</div>;
+  return <Row className={"w-[850px]"}>{children}</Row>;
 }
 export function Footer({ children }: { children: React.ReactNode }) {
   return <footer className={"flex w-[850px]"}>{children}</footer>;
@@ -53,6 +55,6 @@ export function Footer({ children }: { children: React.ReactNode }) {
 TableContext.displayName = "TableContext";
 Table.Header = Header;
 Table.Body = Body;
-Table.Row = Row;
+Table.TRow = TRow;
 Table.Footer = Footer;
 export default Table;

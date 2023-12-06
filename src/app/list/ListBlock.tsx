@@ -8,6 +8,8 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { usePosts } from "@/hook/usePosts";
 import { cn } from "@/utils/twmarge";
 import Pagination from "@/components/shared/Pagination";
+import Contents from "@/components/Layout/Contents";
+import Col from "@/components/Layout/Col";
 
 type Post = {
   id: number;
@@ -21,7 +23,7 @@ export function ListBlock() {
   const { isLoading, error, posts: postList, count } = usePosts();
 
   return (
-    <div className={"flex flex-col items-center"}>
+    <Contents className={"flex flex-col items-center"}>
       <Table>
         <Table.Header>
           <div className={"flex w-full justify-between"}>
@@ -40,19 +42,17 @@ export function ListBlock() {
           <Pagination count={count} />
         </Table.Footer>
       </Table>
-    </div>
+    </Contents>
   );
 }
 function PostRow({ post }: { post: Post }) {
   return (
-    <Table.Row>
+    <Table.TRow>
       <div
         className={"flex w-[850px] cursor-pointer gap-[30px]"}
         onClick={() => (window.location.href = `/detail?id=${post.id}`)}
       >
-        <div
-          className={"flex w-[100px] flex-col items-center overflow-hidden "}
-        >
+        <Col className={"w-[100px] items-center overflow-hidden "}>
           <Image
             style={{ height: "100%" }}
             src={post.firstImg ? post?.firstImg : "./svg/next.svg"}
@@ -61,13 +61,13 @@ function PostRow({ post }: { post: Post }) {
             alt={"image"}
           />
           <h2>{post.category}</h2>
-        </div>
-        <div className={"flex max-w-[45rem] flex-col"}>
+        </Col>
+        <Col className={"max-w-[45rem]"}>
           <h2 className={"text-[30px] font-bold"}>{post.title}</h2>
           <p className={"text-[20px]"}>{post.description.slice(0, 110)}</p>
-        </div>
+        </Col>
       </div>
-    </Table.Row>
+    </Table.TRow>
   );
 }
 
