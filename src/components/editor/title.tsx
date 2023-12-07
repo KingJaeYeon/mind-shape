@@ -1,18 +1,23 @@
-import React from "react";
+"use client";
+import React, { useEffect } from "react";
 import { Transforms } from "slate";
-import { ReactEditor } from "slate-react";
-import { useEditorStore } from "@/store/editorStore";
+import { ReactEditor, useReadOnly, useSlateStatic } from "slate-react";
 import { cn } from "@/utils/twmarge";
+import { useEditorStore } from "@/store/editorStore";
 
 export const Title = () => {
-  const { editor } = useEditorStore((state) => state);
+  const { title, setTitle, isOnlyRead } = useEditorStore((state) => state);
+  const editor = useSlateStatic();
   const textareaRef = React.useRef<HTMLTextAreaElement>(null);
-  const handleResizeHeight = () => {
-    if (textareaRef.current) {
+  const handleResizeHeight = (e: any) => {
+    console.log(textareaRef?.current);
+    if (textareaRef?.current) {
       textareaRef.current.style.height = `auto`;
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + `px`;
     }
+    setTitle(e.target.value);
+    localStorage.setItem("title", e.target.value);
   };
   const handleKeyDown = (event: any) => {
     if (event.key === `Enter`) {
@@ -24,10 +29,20 @@ export const Title = () => {
       ReactEditor.focus(editor);
     }
   };
-
+  useEffect(() => {
+    const storedContent = localStorage.getItem("title");
+    setTitle(!!storedContent ? storedContent : "");
+    if (textareaRef?.current) {
+      textareaRef.current.style.height = `auto`;
+      textareaRef.current.style.height =
+        textareaRef.current.scrollHeight + `px`;
+    }
+  }, []);
   return (
     <div className={`w-full`}>
       <textarea
+        value={title}
+        readOnly={isOnlyRead}
         rows={1}
         ref={textareaRef}
         placeholder="제목"

@@ -37,6 +37,9 @@ export const LIST_ITEM = `list-item`;
 
 export const TYPE = `type`;
 export const ALIGN = `align`;
+export const IMAGE_SIZE_LARGE = "large";
+export const IMAGE_SIZE_MIDDLE = "middle";
+export const IMAGE_SIZE_SMALL = "small";
 
 export const TEXT_ALIGN_LEFT = `left`;
 export const TEXT_ALIGN_CENTER = `center`;

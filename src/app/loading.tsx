@@ -1,4 +1,12 @@
 export default function Loading() {
   // Or a custom loading skeleton component
-  return <p>Loading...</p>;
+  return (
+    <div
+      className={
+        "flex h-[100dvh] w-full max-w-full items-center justify-center"
+      }
+    >
+      <p>Loading...</p>
+    </div>
+  );
 }

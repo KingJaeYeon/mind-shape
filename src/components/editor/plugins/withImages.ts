@@ -1,7 +1,7 @@
 import { ImageElement, ParagraphElement } from "../../../../@types/slate";
 import { Transforms } from "slate";
 import isUrl from "is-url";
-import { BLOCK_PARAGRAPH, IMAGE } from "@/constant/slate";
+import { BLOCK_PARAGRAPH, IMAGE, IMAGE_SIZE_LARGE } from "@/constant/slate";
 import { imageExtensionsJs } from "@/lib/utilsJS";
 
 export const withImages = (editor: any) => {
@@ -41,7 +41,12 @@ export const withImages = (editor: any) => {
 
 export const insertImage = (editor: any, url: any) => {
   const text = { text: `` };
-  const image: ImageElement = { type: IMAGE, url, children: [text] };
+  const image: ImageElement = {
+    type: IMAGE,
+    url,
+    children: [text],
+    size: IMAGE_SIZE_LARGE,
+  };
   const normal: ParagraphElement = {
     type: BLOCK_PARAGRAPH,
     children: [{ text: `` }],
