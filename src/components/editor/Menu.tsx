@@ -1,6 +1,6 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/twmarge";
 
 export const Menu = React.forwardRef<
   HTMLDivElement,

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/editor/Button";
+import Button from "@/components/PrimitiveUI/Button";
 import React from "react";
 import { insertImage } from "@/components/editor/plugins/withImages";
 import { useSlateStatic } from "slate-react";
@@ -34,7 +34,7 @@ export default function ImageButton() {
         hidden
       />
       <Button
-        onclickHandler={() => {
+        onClick={() => {
           if (!!ref.current && `click` in ref.current) {
             ref.current.click();
           }

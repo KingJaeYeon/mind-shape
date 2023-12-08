@@ -5,7 +5,7 @@ Page.propTypes = {};
 
 function Page() {
   return (
-    <div>
+    <div className={'b'}>
       <Editor />
     </div>
   );
