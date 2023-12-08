@@ -1,7 +1,6 @@
 "use client";
 import React, { PropsWithChildren } from "react";
-import { BaseProps } from "@/types/baseProps";
-import { cn } from "@/utils/twmarge";
+import { cn } from "@/lib/utils";
 
 export const Menu = React.forwardRef<
   HTMLDivElement,
@@ -18,3 +17,8 @@ export const Menu = React.forwardRef<
 });
 
 Menu.displayName = "Menu";
+
+export interface BaseProps {
+  className: string;
+  [key: string]: unknown;
+}

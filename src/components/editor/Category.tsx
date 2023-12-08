@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect } from "react";
 import { useEditorStore } from "@/store/editorStore";
-import SubmitButton from "@/components/testfoler/submitButton";
-import ResetButton from "@/components/testfoler/resetButton";
+import SubmitButton from "@/components/editor/SubmitButton";
+import ResetButton from "@/components/editor/ResetButton";
 import { LEGAL_CATEGORIES } from "@/constant/constant";
 
 export default function Category() {
@@ -28,7 +28,7 @@ export default function Category() {
         }}
         id="cars"
         className={
-          "h-[40px] w-auto rounded-[4px] border border-gray-300 px-[10px]"
+          "border-gray-300 h-[40px] w-auto rounded-[4px] border px-[10px]"
         }
       >
         {LEGAL_CATEGORIES.map((category) => (

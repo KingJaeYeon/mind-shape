@@ -1,8 +1,8 @@
 "use client";
-import { cn } from "@/lib/twmarge";
-import Button from "@/components/PrimitiveUI/Button";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/editor/Button";
 import { ReactEditor, useSelected, useSlate } from "slate-react";
-import { Portal } from "@/components/PrimitiveUI/Portal";
+import { Portal } from "@/components/editor/Portal";
 import { useRef } from "react";
 import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
@@ -21,13 +21,12 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
   const display = selected ? `inline` : `hidden`;
 
   useHoverToolbarPosition(ref, editor, selected, "image");
-
   return (
     <Portal>
       <Menu
         ref={ref}
         className={
-          "z-1 absolute hidden rounded-[4px] bg-[#222] p-[8px_7px_6px] text-white"
+          "z-1 text-white absolute hidden rounded-[4px] bg-[#222] p-[8px_7px_6px]"
         }
         style={{
           transition: "opacity 0.75s",
@@ -38,36 +37,34 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         }}
       >
         <Button
-          // active
-          onClick={() => ImageEditor.removeImage(editor, path)}
-          className={cn(`px-1.5 py-0.5`, display)}
+          onclickHandler={() => ImageEditor.removeImage(editor, path)}
+          className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
-          {/*<Icon>delete</Icon>*/}
-          <div>delete</div>
+          delete
         </Button>
         <Button
-          // active
-          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_LARGE)}
-          className={cn(`px-1.5 py-0.5`, display)}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_LARGE)
+          }
+          className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
-          {/*<Icon>delete</Icon>*/}
-          <div>F</div>
+          F
         </Button>
         <Button
-          // active
-          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_MIDDLE)}
-          className={cn(`px-1.5 py-0.5`, display)}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_MIDDLE)
+          }
+          className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
-          {/*<Icon>delete</Icon>*/}
-          <div>M</div>
+          M
         </Button>
         <Button
-          // active
-          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_SMALL)}
-          className={cn(`px-1.5 py-0.5`, display)}
+          onclickHandler={() =>
+            ImageEditor.toggleImage(editor, IMAGE_SIZE_SMALL)
+          }
+          className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
-          {/*<Icon>delete</Icon>*/}
-          <div>S</div>
+          S
         </Button>
       </Menu>
     </Portal>

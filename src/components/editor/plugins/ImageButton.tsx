@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/editor/button";
+import { Button } from "@/components/editor/Button";
 import React from "react";
 import { insertImage } from "@/components/editor/plugins/withImages";
 import { useSlateStatic } from "slate-react";
@@ -39,7 +39,7 @@ export default function ImageButton() {
             ref.current.click();
           }
         }}
-        className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
+        className={`flex border border-grayscale px-1.5 py-0.5 italic`}
       >
         File
       </Button>

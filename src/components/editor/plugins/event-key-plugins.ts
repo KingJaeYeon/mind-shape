@@ -12,8 +12,8 @@ import {
   MARK_UNDERLINE,
 } from "@/constant/slate";
 import {
+  BlockEditor,
   LinkEditor,
-  ListDeleter,
   MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
 
@@ -54,7 +54,7 @@ export const EventKeyPlugins = {
   },
   DeleteLister(event: any, editor: any) {
     if (event.key === `Backspace` || event.key === `Delete`) {
-      ListDeleter.ActionHandler(editor, event);
+      BlockEditor.deleteBlock(editor);
     }
   },
   CodeOrLinkEnter(event: any, editor: any) {

@@ -1,7 +1,7 @@
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useSearchParams } from "next/navigation";
 import { getPostList } from "@/service/post";
-import { PAGE_SIZE } from "@/constant/default";
+import { PAGE_SIZE } from "@/constant/constant";
 
 interface FilterType {
   category?: string | null;
