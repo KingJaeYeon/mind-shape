@@ -14,50 +14,47 @@ import {
 import {
   ALIGN,
   BLOCK_PARAGRAPH,
-  BULLETED_LIST,
+  // BULLETED_LIST,
   HR,
-  IMAGE,
+  // IMAGE,
   LIST_ITEM,
   LIST_TYPES,
   MARK_LINK,
-  NUMBER_LIST,
+  // NUMBER_LIST,
   TEXT_ALIGN_TYPES,
   TYPE,
 } from "@/constant/slate";
 
-export const ListDeleter = {
-  isElementListType(editor: any) {
-    const [match]: any = SlateEditor.nodes(editor, {
-      match: (n: any) => LIST_TYPES.includes(n.type),
-    });
-    const [match1]: any = SlateEditor.nodes(editor, {
-      match: (n: any) => n.type === LIST_ITEM,
-    });
-    let length;
-    if (match) {
-      length =
-        match[0].children[match[0].children.length - 1].children[0].text.length;
-    }
-    return {
-      isMatch: !!match,
-      length,
-    };
-  },
-
-  ActionHandler(editor: any, event: any) {
-    const { isMatch, length } = ListDeleter.isElementListType(editor);
-    if (length === 0 && isMatch) {
-      event.preventDefault();
-      Transforms.unwrapNodes(editor, {
-        match: (n: any) => LIST_TYPES.includes(n.type),
-        split: true,
-      });
-      Transforms.setNodes(editor, {
-        type: BLOCK_PARAGRAPH,
-      } as any);
-    }
-  },
-};
+// export const ListDeleter = {
+//   isElementListType(editor: any) {
+//     const [match]: any = SlateEditor.nodes(editor, {
+//       match: (n: any) => LIST_TYPES.includes(n.type),
+//     });
+//     let length;
+//     if (match) {
+//       length =
+//         match[0].children[match[0].children.length - 1].children[0].text.length;
+//     }
+//     return {
+//       isMatch: !!match,
+//       length,
+//     };
+//   },
+//
+//   ActionHandler(editor: any, event: any) {
+//     const { isMatch, length } = ListDeleter.isElementListType(editor);
+//     if (length === 0 && isMatch) {
+//       event.preventDefault();
+//       Transforms.unwrapNodes(editor, {
+//         match: (n: any) => LIST_TYPES.includes(n.type),
+//         split: true,
+//       });
+//       Transforms.setNodes(editor, {
+//         type: BLOCK_PARAGRAPH,
+//       } as any);
+//     }
+//   },
+// };
 export const HREditor = {
   toggleHR(editor: any) {
     const hr: HRElement = { type: HR, children: [{ text: `` }] };
@@ -67,27 +64,6 @@ export const HREditor = {
     };
     Transforms.insertNodes(editor, hr);
     Transforms.insertNodes(editor, paragraph);
-  },
-};
-export const ListEditor = {
-  isListActive(editor: any, format: string) {
-    const [match]: any = SlateEditor.nodes(editor, {
-      match: (n: any) => n.type === format,
-    });
-    return !!match;
-  },
-
-  toggleList(editor: any, format: string) {
-    const isActive = ListEditor.isListActive(editor, format);
-    const isList = LIST_TYPES.includes(format);
-    Transforms.setNodes(editor, {
-      type: isActive ? BLOCK_PARAGRAPH : isList ? LIST_ITEM : format,
-    } as any);
-
-    if (!isActive && isList) {
-      const block = { type: format, children: [] };
-      Transforms.wrapNodes(editor, block);
-    }
   },
 };
 
@@ -125,20 +101,41 @@ export const BlockEditor = {
     });
     Transforms.setNodes<SlateElement>(editor, newProperties);
   },
+
   defaultBlock(editor: any) {
-    Transforms.setNodes<SlateElement>(editor, { type: BLOCK_PARAGRAPH });
+    Transforms.setNodes<SlateElement>(editor, {
+      type: BLOCK_PARAGRAPH,
+      children: [{ text: `` }],
+    });
+  },
+  isParagraph(editor: any) {
+    const [match]: any = SlateEditor.nodes(editor, {
+      match: (n: any) =>
+        SlateElement?.isElement(n) && n[TYPE] === BLOCK_PARAGRAPH,
+    } as any);
+    return !!match;
+  },
+  deleteBlock(editor: any) {
+    const res = BlockEditor.isParagraph(editor);
+    const { anchor } = editor.selection;
+    if (!res && anchor.offset === 0) {
+      Transforms.insertNodes(editor, {
+        type: BLOCK_PARAGRAPH,
+        children: [{ text: `` }],
+      });
+    }
   },
 };
 export const ImageEditor = {
   toggleImage(editor: any, format: ImageFormat) {
-    console.log(editor);
-    // Transforms.insertNodes(editor, { size: format });
     Transforms.setNodes<SlateElement>(editor, { size: format });
   },
+
   removeImage(editor: any, path: Path) {
     Transforms.removeNodes(editor, { at: path });
   },
 };
+
 export const MarkEditor = {
   isMarkActive(editor: any, format: MarkFormat) {
     const marks: Omit<CustomText, `text`> | null = SlateEditor.marks(editor);
@@ -147,13 +144,13 @@ export const MarkEditor = {
 
   toggleMark(editor: any, format: MarkFormat) {
     const isActive = MarkEditor.isMarkActive(editor, format);
-    console.log("toggleMark");
     if (isActive) {
       SlateEditor.removeMark(editor, format);
     } else {
       SlateEditor.addMark(editor, format, true);
     }
   },
+
   removeMark(editor: any, format: MarkFormat) {
     SlateEditor.removeMark(editor, format);
   },
@@ -171,3 +168,25 @@ export const LinkEditor = {
     SlateEditor.removeMark(editor, format);
   },
 };
+
+// export const ListEditor = {
+//   isListActive(editor: any, format: string) {
+//     const [match]: any = SlateEditor.nodes(editor, {
+//       match: (n: any) => n.type === format,
+//     });
+//     return !!match;
+//   },
+//
+//   toggleList(editor: any, format: string) {
+//     const isActive = ListEditor.isListActive(editor, format);
+//     const isList = LIST_TYPES.includes(format);
+//     Transforms.setNodes(editor, {
+//       type: isActive ? BLOCK_PARAGRAPH : isList ? LIST_ITEM : format,
+//     } as any);
+//
+//     if (!isActive && isList) {
+//       const block = { type: format, children: [] };
+//       Transforms.wrapNodes(editor, block);
+//     }
+//   },
+// };

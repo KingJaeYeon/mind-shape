@@ -2,7 +2,7 @@
 //Only use in Toolbar.Root
 import * as Toolbar from "@radix-ui/react-toolbar";
 import React from "react";
-import { cn } from "@/utils/twmarge";
+import { cn } from "@/lib/twmarge";
 import {
   SeparatorProps,
   ToggleGroupProps,

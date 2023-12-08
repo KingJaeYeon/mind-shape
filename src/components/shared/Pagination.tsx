@@ -1,9 +1,9 @@
 "use client";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { PAGE_SIZE, PAGINATION } from "@/constant/default";
+import { PAGE_SIZE, PAGINATION } from "@/constant/constant";
 import React, { useCallback } from "react";
-import { IconChevronLeft, IconChevronRight } from "@/public/svg";
-import { cn } from "@/utils/twmarge";
+import { IconChevronLeft, IconChevronRight } from "@/assets/svg";
+import { cn } from "@/lib/twmarge";
 import "@/style/pagination.css";
 import Contents from "@/components/Layout/Contents";
 

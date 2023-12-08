@@ -1,13 +1,14 @@
 "use client";
 
-import { Button } from "@/components/editor/button";
+import { Button } from "@/components/editor/Button";
 import React from "react";
 import { useEditorStore } from "@/store/editorStore";
-import { cn } from "@/utils/twmarge";
+import { cn } from "@/lib/utils";
 import { LinkEditor } from "@/components/editor/plugins/custom-editor-plugins";
 import { MARK_LINK } from "@/constant/slate";
 import { useSlateStatic } from "slate-react";
-import { IconLink } from "@/public/svg";
+import { IconLink } from "@/assets/svg/svgList";
+
 export default function LinkButton({ isHoverButton = false }) {
   const { setLink } = useEditorStore((state) => state);
   const border = isHoverButton ? "" : "border border-gray-300";

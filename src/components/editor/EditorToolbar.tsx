@@ -1,10 +1,9 @@
 "use client";
-import { Button } from "./button";
+import Button from "@/components/PrimitiveUI/Button";
 import React from "react";
 import {
   BlockEditor,
   HREditor,
-  ListEditor,
   MarkEditor,
 } from "@/components/editor/plugins/custom-editor-plugins";
 import {
@@ -23,13 +22,13 @@ import {
   TEXT_ALIGN_LEFT,
   TEXT_ALIGN_RIGHT,
 } from "@/constant/slate";
-import ImageButton from "@/components/editor/image-button";
+import ImageButton from "@/components/editor/plugins/ImageButton";
 import { useSlateStatic } from "slate-react";
-import { cn } from "@/utils/twmarge";
+import { cn } from "@/lib/twmarge";
 import { useEditorStore } from "@/store/editorStore";
-import { IconQuote } from "@/public/svg";
+import { IconQuote } from "@/assets/svg";
 
-export const EditorToolbar = ({ show }: { show: boolean }) => {
+export const Toolbar = ({ show }: { show: boolean }) => {
   const editor = useSlateStatic();
   const { isOnlyRead } = useEditorStore((state) => state);
   if (isOnlyRead) return null;
@@ -47,7 +46,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
         <div className={"flex"}>
           <Button
             title={`ctrl+b`}
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, BLOCK_PARAGRAPH);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -56,7 +55,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
           </Button>
           <Button
             title={`ctrl+b`}
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, BLOCK_QUOTE);
             }}
             className={cn(
@@ -66,7 +65,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             <IconQuote css={{ width: 15, height: 15 }} />
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -74,7 +73,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             H1
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -82,7 +81,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             H2
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, BLOCK_HEADING_THREE);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -90,7 +89,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             H3
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, TEXT_ALIGN_LEFT);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -98,7 +97,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             Left
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, TEXT_ALIGN_CENTER);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -106,7 +105,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             Center
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               BlockEditor.toggleBlock(editor, TEXT_ALIGN_RIGHT);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -114,7 +113,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             Right
           </Button>
           {/*<Button*/}
-          {/*  onclickHandler={() => {*/}
+          {/*  onClick={() => {*/}
           {/*    ListEditor.toggleList(editor, NUMBER_LIST);*/}
           {/*  }}*/}
           {/*  className={`flex border border-gray-300 px-1.5 py-0.5 italic`}*/}
@@ -122,7 +121,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
           {/*  Number*/}
           {/*</Button>*/}
           {/*<Button*/}
-          {/*  onclickHandler={() => {*/}
+          {/*  onClick={() => {*/}
           {/*    ListEditor.toggleList(editor, BULLETED_LIST);*/}
           {/*  }}*/}
           {/*  className={`flex border border-gray-300 px-1.5 py-0.5 italic`}*/}
@@ -131,7 +130,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
           {/*</Button>*/}
           <ImageButton />
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               HREditor.toggleHR(editor);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -145,7 +144,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
         <div className={"flex"}>
           <Button
             title={`ctrl+b`}
-            onclickHandler={() => {
+            onClick={() => {
               MarkEditor.toggleMark(editor, MARK_BOLD);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -153,7 +152,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             B
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               MarkEditor.toggleMark(editor, MARK_CODE);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -161,7 +160,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             C
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               MarkEditor.toggleMark(editor, MARK_UNDERLINE);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}
@@ -169,7 +168,7 @@ export const EditorToolbar = ({ show }: { show: boolean }) => {
             U
           </Button>
           <Button
-            onclickHandler={() => {
+            onClick={() => {
               MarkEditor.toggleMark(editor, MARK_ITALIC);
             }}
             className={`flex border border-gray-300 px-1.5 py-0.5 italic`}

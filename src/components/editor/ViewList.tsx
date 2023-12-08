@@ -1,27 +1,17 @@
 "use client";
-
-import React, { useCallback } from "react";
-
-import Image from "next/image";
-import Table from "@/components/shared/Table";
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { usePosts } from "@/hook/usePosts";
-import { cn } from "@/lib/twmarge";
-import Pagination from "@/components/shared/Pagination";
 import Contents from "@/components/Layout/Contents";
+import Table from "@/components/PrimitiveUI/Table";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useCallback } from "react";
+import { cn } from "@/lib/twmarge";
+import { LEGAL_CATEGORIES } from "@/constant/constant";
+import { usePosts } from "@/hook/usePosts";
 import Col from "@/components/Layout/Col";
+import Image from "next/image";
+import Pagination from "@/components/shared/Pagination";
 
-type Post = {
-  id: number;
-  title: string;
-  description: string;
-  category: string;
-  firstImg: string;
-};
-
-export function ListBlock() {
+export default function ViewList() {
   const { isLoading, error, posts: postList, count } = usePosts();
-
   return (
     <Contents className={"flex flex-col items-center"}>
       <Table>
@@ -31,6 +21,7 @@ export function ListBlock() {
             <SortBy />
           </div>
         </Table.Header>
+
         <Table.Body
           isLoading={isLoading}
           data={postList}
@@ -44,17 +35,24 @@ export function ListBlock() {
     </Contents>
   );
 }
+type Post = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  firstImg: string;
+};
 function PostRow({ post }: { post: Post }) {
   return (
     <Table.TRow>
       <div
-        className={"flex w-[850px] cursor-pointer gap-[30px]"}
-        onClick={() => (window.location.href = `/detail?id=${post.id}`)}
+        className={"flex w-[850px] cursor-pointer gap-[30px] py-[30px]"}
+        onClick={() => (window.location.href = `/guide/detail?id=${post.id}`)}
       >
         <Col className={"w-[100px] items-center overflow-hidden "}>
           <Image
             style={{ height: "100%" }}
-            src={post.firstImg ? post?.firstImg : "./svg/next.svg"}
+            src={post.firstImg ? post?.firstImg : "/next.svg"}
             width={100}
             height={100}
             alt={"image"}
@@ -69,7 +67,6 @@ function PostRow({ post }: { post: Post }) {
     </Table.TRow>
   );
 }
-
 function SortBy() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -95,7 +92,7 @@ function SortBy() {
     <div className={"flex gap-[30px]"}>
       {options.map((option) => (
         <button
-          className={cn("", sortBy === option.value && "text-blue-500")}
+          className={cn("", sortBy === option.value && "text-primary-light")}
           key={option.label}
           onClick={() =>
             router.push(pathname + "?" + createQuery(option.value))
@@ -108,27 +105,13 @@ function SortBy() {
   );
 }
 
-const categories = [
-  "ALL",
-  "금전/계약",
-  "기업 법무",
-  "형사 절차",
-  "폭행 협박",
-  "명예훼손",
-  "가족/이혼",
-  "세금",
-  "학교폭력",
-  "성/통매음",
-  "기타",
-];
-
 function Select() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const category = searchParams.get("category") || "ALL";
-
+  const newArray = ["ALL", ...LEGAL_CATEGORIES];
   const createQuery = useCallback(
     (category: string) => {
       const params = new URLSearchParams(searchParams);
@@ -150,7 +133,7 @@ function Select() {
         "h-[40px] w-auto rounded-[4px] border border-gray-300 px-[10px]"
       }
     >
-      {categories.map((category) => (
+      {newArray.map((category) => (
         <option value={category} key={category}>
           {category}
         </option>

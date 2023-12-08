@@ -1,5 +1,5 @@
 import React, { forwardRef } from "react";
-import { cn } from "@/utils/twmarge";
+import { cn } from "@/lib/twmarge";
 
 type Props = {
   children?: React.ReactNode | React.ReactNode[];

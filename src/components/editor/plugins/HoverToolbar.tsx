@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useFocused, useReadOnly, useSlate, useSlateStatic } from "slate-react";
-import { Portal } from "@/components/PrimitiveUI/Portal";
-import Button from "@/components/PrimitiveUI/Button";
+import { Portal } from "@/components/editor/Portal";
+import { Button } from "@/components/editor/Button";
 import * as Toolbar from "@radix-ui/react-toolbar";
 import {
   BlockEditor,
@@ -23,21 +23,20 @@ import {
 import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 import { useEditorStore } from "@/store/editorStore";
-import { cn } from "@/lib/twmarge";
+import { cn } from "@/lib/utils";
 import {
   IconBold,
   IconCode,
-  IconHr,
   IconItalic,
   IconLink,
   IconQuote,
   IconUnderLined,
-} from "@/assets/svg";
+} from "@/assets/svg/svgList";
 import {
   ToggleGroup,
   ToggleItem,
   ToggleSeparator,
-} from "@/components/shared/Toolbar";
+} from "@/components/UI/Toolbar";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -60,7 +59,7 @@ export default function HoverToolbar() {
       <Menu
         ref={ref}
         className={cn(
-          "absolute z-20 hidden rounded-[4px] bg-[#222]",
+          "absolute z-20 hidden rounded-[4px] bg-grayscale-dark",
           menuStyled,
         )}
         style={{
@@ -93,6 +92,7 @@ function DefaultMenu() {
           value={"bold"}
           ariaLabel={"Bold"}
           onClick={() => {
+            BlockEditor.defaultBlock(editor);
             MarkEditor.removeMark(editor, MARK_CODE);
             MarkEditor.toggleMark(editor, MARK_BOLD);
           }}
@@ -145,7 +145,10 @@ function DefaultMenu() {
           value={"quote"}
           ariaLabel={"Quote"}
           className={"relative top-[2px]"}
-          onClick={() => BlockEditor.toggleBlock(editor, BLOCK_QUOTE)}
+          onClick={() => {
+            BlockEditor.toggleBlock(editor, BLOCK_QUOTE);
+            MarkEditor.removeMark(editor, MARK_CODE);
+          }}
         >
           <IconQuote
             isActive={BlockEditor.isBlockActive(editor, BLOCK_QUOTE)}
@@ -154,40 +157,51 @@ function DefaultMenu() {
         </ToggleItem>
       </ToggleGroup>
       <ToggleSeparator />
-      <Button
-        onClick={() => {
-          MarkEditor.removeMark(editor, MARK_CODE);
-          BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
-        }}
-        className={cn(
-          `flex px-1.5 py-0.5`,
-          BlockEditor.isBlockActive(editor, BLOCK_HEADING_ONE) &&
-            "text-[#a8e293]",
-        )}
-      >
-        H1
-      </Button>
-      <Button
-        onClick={() => {
-          MarkEditor.removeMark(editor, MARK_CODE);
-          BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
-        }}
-        className={cn(
-          `flex px-1.5 py-0.5`,
-          BlockEditor.isBlockActive(editor, BLOCK_HEADING_TWO) &&
-            "text-[#a8e293]",
-        )}
-      >
-        H2
-      </Button>
-      <Button
-        onClick={() => {
-          HREditor.toggleHR(editor);
-        }}
-        className={cn(`flex px-1.5 py-0.5`)}
-      >
-        HR
-      </Button>
+
+      <ToggleGroup type={"multiple"}>
+        <ToggleItem
+          value={"H1"}
+          ariaLabel={"H1"}
+          onClick={() => {
+            MarkEditor.removeMark(editor, MARK_CODE);
+            MarkEditor.removeMark(editor, MARK_BOLD);
+            BlockEditor.toggleBlock(editor, BLOCK_HEADING_ONE);
+          }}
+          className={cn(
+            `flex px-1.5 py-0.5 text-grayscale-white`,
+            BlockEditor.isBlockActive(editor, BLOCK_HEADING_ONE) &&
+              "text-[#a8e293]",
+          )}
+        >
+          H1
+        </ToggleItem>
+        <ToggleItem
+          value={"H2"}
+          ariaLabel={"H2"}
+          onClick={() => {
+            MarkEditor.removeMark(editor, MARK_CODE);
+            MarkEditor.removeMark(editor, MARK_BOLD);
+            BlockEditor.toggleBlock(editor, BLOCK_HEADING_TWO);
+          }}
+          className={cn(
+            `flex px-1.5 py-0.5 text-grayscale-white`,
+            BlockEditor.isBlockActive(editor, BLOCK_HEADING_TWO) &&
+              "text-[#a8e293]",
+          )}
+        >
+          H2
+        </ToggleItem>
+        <ToggleItem
+          value={"HR"}
+          ariaLabel={"HR"}
+          onClick={() => {
+            HREditor.toggleHR(editor);
+          }}
+          className={cn(`flex px-1.5 py-0.5 text-grayscale-white`)}
+        >
+          HR
+        </ToggleItem>
+      </ToggleGroup>
     </Toolbar.Root>
   );
 }
@@ -203,22 +217,27 @@ function LinkInput({
   const editor = useSlateStatic();
   return (
     <div className={"flex p-[8px_7px_6px]"}>
-      <input
-        value={inputValue}
-        className={"w-[180px] bg-[#222] text-[14px] text-white outline-none"}
-        autoFocus={true}
-        placeholder={"Paste or type a link..."}
-        onChange={(e) => setInputValue(e.target.value)}
-      />
-      <Button
-        className={"flex px-1.5 py-0.5 text-[14px] text-white"}
-        onClick={() => {
-          LinkEditor.addLink(editor, MARK_LINK, inputValue);
-          setLink(false);
-        }}
-      >
-        확인
-      </Button>
+      <form className={"contents"}>
+        <input
+          value={inputValue}
+          className={
+            "w-[180px] bg-[#222] text-[14px] text-grayscale-white outline-none"
+          }
+          required
+          autoFocus={true}
+          placeholder={"Paste or type a link..."}
+          onChange={(e) => setInputValue(e.target.value)}
+        />
+        <Button
+          className={"flex px-1.5 py-0.5 text-[14px] text-grayscale-white"}
+          onclickHandler={() => {
+            LinkEditor.addLink(editor, MARK_LINK, inputValue);
+            setLink(false);
+          }}
+        >
+          확인
+        </Button>
+      </form>
     </div>
   );
 }

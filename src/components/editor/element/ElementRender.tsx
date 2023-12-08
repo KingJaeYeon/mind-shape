@@ -1,6 +1,6 @@
 "use client";
 import { RenderElementProps, RenderLeafProps } from "slate-react";
-import { Element, Leaf } from "./change-element";
+import { Element, Leaf } from "./ChangeElement";
 
 export const renderElement = (props: RenderElementProps) => {
   return <Element {...props} />;

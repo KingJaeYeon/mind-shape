@@ -7,6 +7,7 @@ import IconQuote from "./quote";
 import IconHr from "./hr";
 import IconChevronRight from "./chevron-right";
 import IconChevronLeft from "./chevron-left";
+import { IconDotEmpty, IconDot } from "./dot";
 
 export {
   IconLink,
@@ -18,4 +19,6 @@ export {
   IconHr,
   IconChevronRight,
   IconChevronLeft,
+  IconDotEmpty,
+  IconDot,
 };

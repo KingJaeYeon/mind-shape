@@ -1,5 +1,5 @@
 import { request } from "@/service/axios";
-import { PAGE_SIZE } from "@/constant/default";
+import { PAGE_SIZE } from "@/constant/constant";
 
 export function getPostList({
   filter,

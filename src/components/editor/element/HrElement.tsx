@@ -1,4 +1,4 @@
-import { ElementProps } from "@/components/editor/plugins/change-element";
+import { ElementProps } from "@/components/editor/element/ChangeElement";
 
 export const HrElement = ({ attributes }: ElementProps) => {
   return (
