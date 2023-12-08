@@ -4,15 +4,17 @@ import { cn } from "@/utils/twmarge";
 type Props = {
   children?: React.ReactNode | React.ReactNode[];
   className?: string;
-  ref?: React.Ref<HTMLDivElement>;
 };
-function Page({ children, className, ref }: Props) {
+
+const Page = forwardRef<HTMLDivElement, Props>((props, ref) => {
+  const { children, className } = props;
   return (
-    <div ref={ref} className={cn("", className)}>
+    <main ref={ref} className={cn(`flex`, className)}>
       {children}
-    </div>
+    </main>
   );
-}
+});
 
 Page.displayName = "Page";
-export default forwardRef<HTMLDivElement, Props>(Page);
+
+export default Page;

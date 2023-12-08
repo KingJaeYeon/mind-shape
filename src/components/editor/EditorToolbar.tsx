@@ -29,7 +29,7 @@ import { cn } from "@/utils/twmarge";
 import { useEditorStore } from "@/store/editorStore";
 import { IconQuote } from "@/public/svg";
 
-export const Toolbar = ({ show }: { show: boolean }) => {
+export const EditorToolbar = ({ show }: { show: boolean }) => {
   const editor = useSlateStatic();
   const { isOnlyRead } = useEditorStore((state) => state);
   if (isOnlyRead) return null;
