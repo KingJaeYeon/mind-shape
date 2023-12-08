@@ -20,7 +20,7 @@ import {
   MARK_LINK,
   MARK_UNDERLINE,
 } from "@/constant/slate";
-import { Menu } from "@/components/editor/hover-toolbar-menu";
+import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 import { useEditorStore } from "@/store/editorStore";
 import { cn } from "@/utils/twmarge";

@@ -7,7 +7,7 @@ import {
   renderElement,
   renderLeaf,
 } from "@/components/editor/plugins/element-render";
-import { Toolbar } from "@/components/editor/toolbar";
+import { EditorToolbar } from "@/components/editor/EditorToolbar";
 
 import HoverToolbar from "@/components/editor/plugins/hover-toolbar";
 import {
@@ -81,7 +81,7 @@ function Editor({ readOnly, content }: { readOnly?: boolean; content?: any }) {
           }
         }}
       >
-        <Toolbar show={true} />
+        <EditorToolbar show={true} />
         <div className={`grid w-full max-w-[45rem] overflow-auto`}>
           <Title />
           <hr className={`my-5`} />

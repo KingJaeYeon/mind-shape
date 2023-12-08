@@ -4,7 +4,7 @@ import { Button } from "@/components/editor/button";
 import { ReactEditor, useSelected, useSlate } from "slate-react";
 import { Portal } from "@/components/editor/Portal";
 import { useRef } from "react";
-import { Menu } from "@/components/editor/hover-toolbar-menu";
+import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 import { ImageEditor } from "@/components/editor/plugins/custom-editor-plugins";
 import {

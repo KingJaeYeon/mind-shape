@@ -31,7 +31,6 @@ export function ListBlock() {
             <SortBy />
           </div>
         </Table.Header>
-
         <Table.Body
           isLoading={isLoading}
           data={postList}

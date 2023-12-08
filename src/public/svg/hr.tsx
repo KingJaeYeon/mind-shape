@@ -1,5 +1,4 @@
-export default function IconHr({ isActive = false }: { isActive?: boolean }) {
-  const color = isActive ? "#a8e293" : "white";
+export default function IconHr() {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
