@@ -1,8 +1,8 @@
 "use client";
 import React, { useEffect, useRef, useState } from "react";
 import { useFocused, useReadOnly, useSlate, useSlateStatic } from "slate-react";
-import { Portal } from "@/components/editor/Portal";
-import { Button } from "@/components/editor/Button";
+import { Portal } from "@/components/PrimitiveUI/Portal";
+import Button from "@/components/PrimitiveUI/Button";
 import * as Toolbar from "@radix-ui/react-toolbar";
 import {
   BlockEditor,
@@ -23,7 +23,7 @@ import {
 import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
 import { useEditorStore } from "@/store/editorStore";
-import { cn } from "@/lib/utils";
+import { cn } from "@/lib/twmarge";
 import {
   IconBold,
   IconCode,
@@ -31,12 +31,12 @@ import {
   IconLink,
   IconQuote,
   IconUnderLined,
-} from "@/assets/svg/svgList";
+} from "@/assets/svg";
 import {
   ToggleGroup,
   ToggleItem,
   ToggleSeparator,
-} from "@/components/UI/Toolbar";
+} from "@/components/shared/Toolbar";
 
 export default function HoverToolbar() {
   const ref = useRef<HTMLDivElement>(null);
@@ -230,7 +230,7 @@ function LinkInput({
         />
         <Button
           className={"flex px-1.5 py-0.5 text-[14px] text-grayscale-white"}
-          onclickHandler={() => {
+          onClick={() => {
             LinkEditor.addLink(editor, MARK_LINK, inputValue);
             setLink(false);
           }}

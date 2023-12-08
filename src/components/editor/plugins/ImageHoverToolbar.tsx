@@ -1,8 +1,8 @@
 "use client";
-import { cn } from "@/lib/utils";
-import { Button } from "@/components/editor/Button";
+import { cn } from "@/lib/twmarge";
+import Button from "@/components/PrimitiveUI/Button";
 import { ReactEditor, useSelected, useSlate } from "slate-react";
-import { Portal } from "@/components/editor/Portal";
+import { Portal } from "@/components/PrimitiveUI/Portal";
 import { useRef } from "react";
 import { Menu } from "@/components/editor/Menu";
 import { useHoverToolbarPosition } from "@/hook/useHoverToolbarPosition";
@@ -26,7 +26,7 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
       <Menu
         ref={ref}
         className={
-          "z-1 text-white absolute hidden rounded-[4px] bg-[#222] p-[8px_7px_6px]"
+          "z-1 absolute hidden rounded-[4px] bg-[#222] p-[8px_7px_6px] text-white"
         }
         style={{
           transition: "opacity 0.75s",
@@ -37,31 +37,25 @@ export default function ImageHoverToolbar({ element }: { element: any }) {
         }}
       >
         <Button
-          onclickHandler={() => ImageEditor.removeImage(editor, path)}
+          onClick={() => ImageEditor.removeImage(editor, path)}
           className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
           delete
         </Button>
         <Button
-          onclickHandler={() =>
-            ImageEditor.toggleImage(editor, IMAGE_SIZE_LARGE)
-          }
+          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_LARGE)}
           className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
           F
         </Button>
         <Button
-          onclickHandler={() =>
-            ImageEditor.toggleImage(editor, IMAGE_SIZE_MIDDLE)
-          }
+          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_MIDDLE)}
           className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
           M
         </Button>
         <Button
-          onclickHandler={() =>
-            ImageEditor.toggleImage(editor, IMAGE_SIZE_SMALL)
-          }
+          onClick={() => ImageEditor.toggleImage(editor, IMAGE_SIZE_SMALL)}
           className={cn(`px-1.5 py-0.5 text-grayscale-white`, display)}
         >
           S
