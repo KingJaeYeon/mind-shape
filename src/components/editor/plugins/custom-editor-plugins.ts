@@ -1,11 +1,13 @@
 import {
   Editor as SlateEditor,
   Element as SlateElement,
+  Path,
   Transforms,
 } from "slate";
 import {
   CustomText,
   HRElement,
+  ImageFormat,
   MarkFormat,
   ParagraphElement,
 } from "../../../../@types/slate";
@@ -14,59 +16,22 @@ import {
   BLOCK_PARAGRAPH,
   BULLETED_LIST,
   HR,
+  IMAGE,
   LIST_ITEM,
   LIST_TYPES,
-  MARK_BOLD,
-  MARK_CODE,
-  MARK_ITALIC,
-  MARK_UNDERLINE,
+  MARK_LINK,
   NUMBER_LIST,
   TEXT_ALIGN_TYPES,
   TYPE,
 } from "@/constant/slate";
-import {
-  MARK_BOLD_HOTKEY,
-  MARK_CODE_HOTKEY,
-  MARK_ITALIC_HOTKEY,
-  MARK_UNDERLINE_HOTKEY,
-} from "@/constant/slate-hotkey";
-
-export const keydownEventPlugin = (event: any, editor: any) => {
-  if (!event.ctrlKey) return;
-
-  switch (event.key) {
-    case MARK_CODE_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_CODE);
-      break;
-    }
-    case MARK_BOLD_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_BOLD);
-      break;
-    }
-    case MARK_UNDERLINE_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_UNDERLINE);
-      break;
-    }
-    case MARK_ITALIC_HOTKEY: {
-      event.preventDefault();
-      MarkEditor.toggleMark(editor, MARK_ITALIC);
-      break;
-    }
-  }
-};
-
-export const ShiftEnter = (event: any, editor: any) => {
-  event.preventDefault();
-  editor.insertText(`\n`);
-};
 
 export const ListDeleter = {
   isElementListType(editor: any) {
     const [match]: any = SlateEditor.nodes(editor, {
-      match: (n: any) => n.type === NUMBER_LIST || n.type === BULLETED_LIST,
+      match: (n: any) => LIST_TYPES.includes(n.type),
+    });
+    const [match1]: any = SlateEditor.nodes(editor, {
+      match: (n: any) => n.type === LIST_ITEM,
     });
     let length;
     if (match) {
@@ -75,7 +40,6 @@ export const ListDeleter = {
     }
     return {
       isMatch: !!match,
-      match,
       length,
     };
   },
@@ -116,11 +80,6 @@ export const ListEditor = {
   toggleList(editor: any, format: string) {
     const isActive = ListEditor.isListActive(editor, format);
     const isList = LIST_TYPES.includes(format);
-    Transforms.unwrapNodes(editor, {
-      match: (n: any) => LIST_TYPES.includes(n.type),
-      split: true,
-    });
-
     Transforms.setNodes(editor, {
       type: isActive ? BLOCK_PARAGRAPH : isList ? LIST_ITEM : format,
     } as any);
@@ -160,10 +119,26 @@ export const BlockEditor = {
         type: isActive ? BLOCK_PARAGRAPH : format,
       } as any;
     }
+    Transforms.unwrapNodes(editor, {
+      match: (n: any) => LIST_TYPES.includes(n.type),
+      split: true,
+    });
     Transforms.setNodes<SlateElement>(editor, newProperties);
   },
+  defaultBlock(editor: any) {
+    Transforms.setNodes<SlateElement>(editor, { type: BLOCK_PARAGRAPH });
+  },
 };
-
+export const ImageEditor = {
+  toggleImage(editor: any, format: ImageFormat) {
+    console.log(editor);
+    // Transforms.insertNodes(editor, { size: format });
+    Transforms.setNodes<SlateElement>(editor, { size: format });
+  },
+  removeImage(editor: any, path: Path) {
+    Transforms.removeNodes(editor, { at: path });
+  },
+};
 export const MarkEditor = {
   isMarkActive(editor: any, format: MarkFormat) {
     const marks: Omit<CustomText, `text`> | null = SlateEditor.marks(editor);
@@ -172,10 +147,27 @@ export const MarkEditor = {
 
   toggleMark(editor: any, format: MarkFormat) {
     const isActive = MarkEditor.isMarkActive(editor, format);
+    console.log("toggleMark");
     if (isActive) {
       SlateEditor.removeMark(editor, format);
     } else {
       SlateEditor.addMark(editor, format, true);
     }
+  },
+  removeMark(editor: any, format: MarkFormat) {
+    SlateEditor.removeMark(editor, format);
+  },
+};
+
+export const LinkEditor = {
+  isLinkActive(editor: any, format = MARK_LINK) {
+    const marks: Pick<CustomText, `link`> | null = SlateEditor.marks(editor);
+    return marks ? (marks as any)[format] !== undefined : false;
+  },
+  addLink(editor: any, format = MARK_LINK, link: string) {
+    if (link.trim().length !== 0) SlateEditor.addMark(editor, format, link);
+  },
+  removeLink(editor: any, format = MARK_LINK) {
+    SlateEditor.removeMark(editor, format);
   },
 };

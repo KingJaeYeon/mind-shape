@@ -1,4 +1,4 @@
-import { BaseEditor, Editor } from "slate";
+import { Editor } from "slate";
 import { History } from "./history";
 import { CustomEditor } from "../../../../@types/slate";
 

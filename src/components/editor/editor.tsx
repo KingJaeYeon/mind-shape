@@ -1,67 +1,99 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import { Title } from "@/components/editor/title";
 import { Editable, Slate } from "slate-react";
 import { useEditorStore } from "@/store/editorStore";
-import { BLOCK_PARAGRAPH } from "@/constant/slate";
 import {
   renderElement,
   renderLeaf,
 } from "@/components/editor/plugins/element-render";
 import { Toolbar } from "@/components/editor/toolbar";
-import {
-  keydownEventPlugin,
-  ListDeleter,
-  ShiftEnter,
-} from "@/components/editor/plugins/custom-editor-plugins";
-import { Descendant } from "slate";
 
-const initialValue: Descendant[] = [
+import HoverToolbar from "@/components/editor/plugins/hover-toolbar";
+import {
+  EventKeyPlugins,
+  keydownEventPlugin,
+} from "@/components/editor/plugins/event-key-plugins";
+import Category from "@/components/testfoler/category";
+import { usePathname, useSearchParams } from "next/navigation";
+import { getPost } from "@/service/post";
+const initialValue = [
   {
-    type: BLOCK_PARAGRAPH,
-    children: [
-      {
-        text: `title: 10 Expert Performance Tips Every Senior JS React Developer Should Know\n`,
-      },
-    ],
-  },
-  {
-    type: BLOCK_PARAGRAPH,
-    children: [
-      {
-        text:
-          `Hey, senior JS React developers! Are you looking to take your skills to the next level and optimize your React applications for top-notch performance?\n` +
-          `\n` +
-          `You’re in the right place!\n` +
-          `\n` +
-          `In this article, I’ll share with you 10 expert performance tips that will supercharge your React development.\n` +
-          `\n` +
-          `Get ready to optimize, streamline, and make your apps lightning-fast. Let’s dive in!`,
-      },
-    ],
+    type: "paragraph",
+    children: [{ text: "" }],
   },
 ];
 
-function Editor() {
-  const { editor } = useEditorStore((state) => state);
+function Editor({ readOnly, content }: { readOnly?: boolean; content?: any }) {
+  const pathname = usePathname();
+  const {
+    editor,
+    setContents,
+    contents,
+    setTitle,
+    setCategory,
+    setIsOnlyRead,
+    reset,
+    isOnlyRead,
+  } = useEditorStore((state) => state);
+  const id = useSearchParams().get("id");
+
+  useEffect(() => {
+    setData();
+  }, []);
+
+  async function setData() {
+    let data;
+    if (pathname.includes("detail") && id) {
+      const res = await getPost({ id });
+      setTitle(res.res.title);
+      setCategory(res.res.category);
+      setIsOnlyRead(res.readonly);
+      localStorage.removeItem("content");
+      localStorage.removeItem("title");
+      localStorage.removeItem("category");
+      data = res.res.content;
+    } else {
+      data = localStorage.getItem("content");
+    }
+    await setContents(!!data ? JSON.parse(data) : initialValue);
+  }
+
+  if (contents === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className={`flex w-full flex-col items-center px-2 py-1`}>
-      <Slate editor={editor} initialValue={initialValue}>
+      <Category />
+      <Slate
+        editor={editor}
+        initialValue={contents}
+        onChange={(value) => {
+          const isAstChange = editor.operations.some(
+            (op) => "set_selection" !== op.type,
+          );
+          if (isAstChange) {
+            // Save the value to Local Storage.
+            setContents(value);
+            const content = JSON.stringify(value);
+            localStorage.setItem("content", content);
+          }
+        }}
+      >
         <Toolbar show={true} />
         <div className={`grid w-full max-w-[45rem] overflow-auto`}>
           <Title />
           <hr className={`my-5`} />
+          <HoverToolbar />
           <Editable
-            className={`min-h-[60vh] w-full max-w-full outline-none`}
+            className={`min-h-[60vh] w-full max-w-[45rem] outline-none`}
             renderElement={renderElement}
+            readOnly={isOnlyRead}
             onKeyDownCapture={(event) => {
-              if (event.key === `Enter` && event.shiftKey) {
-                ShiftEnter(event, editor);
-              }
-              if (event.key === `Backspace` || event.key === `Delete`) {
-                ListDeleter.ActionHandler(editor, event);
-              }
+              EventKeyPlugins.ShiftEnter(event, editor);
+              EventKeyPlugins.DeleteLister(event, editor);
+              EventKeyPlugins.CodeOrLinkEnter(event, editor);
             }}
             renderLeaf={renderLeaf}
             onKeyDown={(event) => {
@@ -70,7 +102,7 @@ function Editor() {
               }
             }}
           />
-          <div className={`h-[200px] border border-gray-300`}>
+          <div className={`h-[200px] border border-gray-300 bg-red-100`}>
             <p>dmkdmk</p>
           </div>
         </div>
