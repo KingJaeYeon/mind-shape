@@ -1,11 +1,11 @@
 import React from "react";
-import Editor from "@/components/editor/editor";
+import Editor from "@/components/editor/Editor";
 
 Page.propTypes = {};
 
 function Page() {
   return (
-    <div className={'b'}>
+    <div className={"b"}>
       <Editor />
     </div>
   );

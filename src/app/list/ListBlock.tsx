@@ -3,7 +3,7 @@
 import React, { useCallback } from "react";
 
 import Image from "next/image";
-import Table from "@/components/shared/Table";
+import Table from "@/components/PrimitiveUI/Table";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { usePosts } from "@/hook/usePosts";
 import { cn } from "@/lib/twmarge";

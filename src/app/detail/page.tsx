@@ -1,4 +1,5 @@
-import Editor from "@/components/editor/editor";
+import React from "react";
+import Editor from "@/components/editor/Editor";
 
 export default async function page() {
   return (
